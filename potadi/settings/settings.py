@@ -132,10 +132,10 @@ from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'bg-info',
-    messages.INFO: 'bg-info',
-    messages.SUCCESS: 'bg-success',
-    messages.WARNING: 'bg-warning',
-    messages.ERROR: 'bg-danger',
+    messages.INFO: 'blue',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'orange',
+    messages.ERROR: 'red',
 }
 
 CSRF_COOKIE_SECURE = True

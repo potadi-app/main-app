@@ -23,7 +23,7 @@ def login(request):
                     messages.error(request, 'Ups, Password salah!')
                     return redirect('login')
             else:
-                messages.error(request, 'Email belum terdaftar!')
+                messages.warning(request, 'Email belum terdaftar!')
                 return redirect('login')
         else:
             messages.error(request, 'Email dan password harus diisi!')
