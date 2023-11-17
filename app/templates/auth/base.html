@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <title>{% block title %}{% endblock title %}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    
+    <!-- Website Icon -->
+    <link rel="icon" type="image/png" href="{% static 'assets/img/leaf.png' %}">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="max-h-screen">
+    {% block body %}
+    {% endblock body %}
+
+
+    <script>
+        const toast = document.getElementById('toast-default');
+
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+
+        setTimeout(() => {
+            toast.classList.remove('opacity-100');
+            toast.classList.add('opacity-0');
+        }, 5000);      
+    </script>
+    <script>
+        const alertError = document.getElementById('alert-error');
+
+        alertError.classList.remove('opacity-0');
+        alertError.classList.add('opacity-100');
+
+        setTimeout(() => {
+            alertError.classList.remove('opacity-100');
+            alertError.classList.add('opacity-0');
+        }, 5000);
+    </script>
+    <script>
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const newPasswordToggle = document.getElementById('newPasswordToggle');
+        const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+        const passwordInput = document.getElementById('pwd');
+        const passwordToggle = document.getElementById('pwdToggle');
+        const passwordMatchMessage = document.getElementById('passwordMatchMessage');
+
+
+
+        function checkPasswordMatch() {
+            const newPassword = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (newPassword === confirmPassword) {
+                passwordMatchMessage.textContent = '';
+            } else {
+                passwordMatchMessage.textContent = 'Password does not match';
+                passwordMatchMessage.style.color = 'red';
+            }
+        }
+
+        newPasswordInput.addEventListener('input', checkPasswordMatch);
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+        checkPasswordMatch();
+    </script>
+    <script>
+        function togglePasswordVisibility(inputId, toggleId) {
+            const input = document.getElementById(inputId);
+            const toggle = document.getElementById(toggleId);
+
+            toggle.addEventListener("click", function () {
+                if (input.type === "password") {
+                    input.type = "text";
+                    toggle.innerHTML = '<i class="far fa-eye-slash"></i>';
+                } else {
+                    input.type = "password";
+                    toggle.innerHTML = '<i class="far fa-eye"></i>';
+                }
+            });
+        }
+
+        togglePasswordVisibility("pwd", "pwdToggle");
+        togglePasswordVisibility("newPassword", "newPasswordToggle");
+        togglePasswordVisibility("confirmPassword", "confirmPasswordToggle");
+    </script>
+</body>
+
+</html>
