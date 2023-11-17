@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from .helpers.decorator import user_must_be_registered
 
+@user_must_be_registered
 def home(request):
-    return render(request, 'index.html')
+    return HttpResponse('Hello World!')

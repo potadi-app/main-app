@@ -12,6 +12,7 @@
       <h2 class="text-2xl font-bold text-[#002D74]">Register</h2>
       <p class="text-sm mt-4 text-[#002D74]">If you don't have an account, please register</p>
       <form class="mt-6" action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
         <div>
           <label class="text-sm block text-black">Email Address</label>
           <input type="email" name="email" id="email" placeholder="Enter Email Address"

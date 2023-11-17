@@ -14,6 +14,10 @@ class Users(models.Model):
 
     def __str__(self):
         return self.email
+    
+    class Meta:
+        verbose_name_plural = 'Users'
+        
 
 class ImageHistory(models.Model):
     id = models.AutoField(primary_key=True)
