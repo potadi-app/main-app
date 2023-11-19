@@ -1,76 +1,78 @@
 {% extends 'auth/base.html' %}
 {% load static %}
-{% block title %}Forgot Password{% endblock title %}
-{% block body %}
+{% block title %}Reset Password{% endblock title %}
 
-{% include "partials/notify.html" %}
+{% block form %}
 
-<section class="border-red-500 bg-blue-50 min-h-screen flex items-center justify-center">
-  <div class="bg-blue-50 p-5 flex rounded-2xl shadow-lg max-w-4xl">
-    <div class="md:w-1/2 px-5">
-      <h2 class="text-2xl font-bold text-[#002D74]">Forgot Password</h2>
-      <p class="text-sm mt-4 text-[#002D74]">Please reset your password</p>
-      <form class="mt-6" action="{% url 'forgot_password' %}" method="POST">
-        <div>
-          <label class="text-sm block text-black">Email Address</label>
-          <input type="email" name="email" id="email" placeholder="Enter Email Address"
-            class="w-full px-4 py-3 rounded-lg bg-blue-50 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            autofocus autocomplete required>
-        </div>
-
-        <div class="mt-4">
-          <label class="text-sm block text-black-100">New Password</label>
-          <div class="relative">
-            <input type="password" name="newPassword" id="newPassword" placeholder="Enter New Password" minlength="6"
-              class="w-full px-4 py-3 rounded-lg bg-blue-50 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              required>
-            <button type="button" id="newPasswordToggle"
-              class="absolute right-4 top-5 text-gray-500 focus:outline-none">
-              <i class="far fa-eye"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="mt-4">
-          <label class="text-sm block text-black-100">Confirm Password</label>
-          <div class="relative">
-            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
-              minlength="6"
-              class="w-full px-4 py-3 rounded-lg bg-blue-50 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              required>
-            <button type="button" id="confirmPasswordToggle"
-              class="absolute right-4 top-5 text-gray-500 focus:outline-none">
-              <i class="far fa-eye"></i>
-            </button>
-          </div>
-          <p id="passwordMatchMessage" class="text-red-500 mt-2"></p>
-        </div>
-
-        <button type="submit" class="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg
-                    px-4 py-3 mt-6">Reset Password</button>
-      </form>
-
-      <div class="mt-5 grid grid-cols-3 items-center text-gray-500">
-        <hr class="border-gray-500" />
-        <p class="text-center text-sm">OR</p>
-        <hr class="border-gray-500" />
-      </div>
-
-      <a href="{% url 'login' %}"
-        class="relative w-full inline-flex items-center justify-center p-0.5 mb-2 mr-2 mt-5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
-        <span
-          class="relative w-full px-5 py-2.5 inline-flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-          Back to Login
-        </span>
-      </a>
-
-    </div>
-
-    <div class="w-1/2 md:block hidden ">
-      <img src="{% static 'assets/img/leaf.png' %}" class="rounded-xl" alt="page img">
-    </div>
-
+<form class="form w-100" novalidate="novalidate" id="kt_new_password_form" data-kt-redirect-url="{% url 'login' %}" action="{% url 'forgot_password' %}">
+  {% csrf_token %}
+  <!--begin::Heading-->
+  <div class="text-center mb-10">
+    <!--begin::Title-->
+    <h1 class="text-dark fw-bolder mb-3">Setup New Password</h1>
+    <!--end::Title-->
+    <!--begin::Link-->
+    <div class="text-gray-500 fw-semibold fs-6">Have you already reset the password ?
+    <a href="{% url 'login' %}" class="link-primary fw-bold">Sign in</a></div>
+    <!--end::Link-->
   </div>
+  <!--begin::Heading-->
+  <div class="fv-row mb-8">
+    <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" />        
+  </div>
+  <!--begin::Input group-->
+  <div class="fv-row mb-8" data-kt-password-meter="true">
+    <!--begin::Wrapper-->
+    <div class="mb-1">
+      <!--begin::Input wrapper-->
+      <div class="position-relative mb-3">
+        <input class="form-control bg-transparent" type="password" placeholder="Password" name="password" autocomplete="off" />
+        <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+          <i class="ki-duotone ki-eye-slash fs-2"></i>
+          <i class="ki-duotone ki-eye fs-2 d-none"></i>
+        </span>
+      </div>
+      <!--end::Input wrapper-->
+      <!--begin::Meter-->
+      <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+      </div>
+      <!--end::Meter-->
+    </div>
+    <!--end::Wrapper-->
+    <!--begin::Hint-->
+    <div class="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols.</div>
+    <!--end::Hint-->
+  </div>
+  <!--end::Input group=-->
+  <!--end::Input group=-->
+  <div class="fv-row mb-8">
+    <!--begin::Repeat Password-->
+    <input type="password" placeholder="Repeat Password" name="confirm-password" autocomplete="off" class="form-control bg-transparent" />
+    <!--end::Repeat Password-->
+  </div>
+  <!--end::Input group=-->
+  
+  <!--begin::Action-->
+  <div class="d-grid mb-10">
+    <button type="button" id="kt_new_password_submit" class="btn btn-primary">
+      <!--begin::Indicator label-->
+      <span class="indicator-label">Submit</span>
+      <!--end::Indicator label-->
+      <!--begin::Indicator progress-->
+      <span class="indicator-progress">Please wait...
+      <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+      <!--end::Indicator progress-->
+    </button>
+  </div>
+  <!--end::Action-->
+</form>
 
-</section>
-{% endblock body %}
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'assets/js/custom/authentication/reset-password/new-password.js' %}"></script>
+{% endblock custom_js %}

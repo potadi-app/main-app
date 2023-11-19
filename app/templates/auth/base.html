@@ -1,93 +1,89 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+<!--begin::Head-->
 
 <head>
-    <title>{% block title %}{% endblock title %}</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    
-    <!-- Website Icon -->
-    <link rel="icon" type="image/png" href="{% static 'assets/img/leaf.png' %}">
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <base href="../../../" />
+    <title>{% block title %}{% endblock %} | Potadi</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Potato Diseases Identification" />
+	<meta name="keywords" content="potato, diseases, identification" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />    
+    <meta property="og:url" content="https://potadi.ai" />
+    <meta property="og:site_name" content="Potadi | Potato Diseases Identification" />
+    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+    <link rel="shortcut icon" href="{% static 'assets/media/logos/leaf.png' %}" />
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
+    <!--end::Global Stylesheets Bundle-->
+    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 </head>
+<!--end::Head-->
+<!--begin::Body-->
 
-<body class="max-h-screen">
-    {% block body %}
-    {% endblock body %}
-
-
-    <script>
-        const toast = document.getElementById('toast-default');
-
-        toast.classList.remove('opacity-0');
-        toast.classList.add('opacity-100');
-
-        setTimeout(() => {
-            toast.classList.remove('opacity-100');
-            toast.classList.add('opacity-0');
-        }, 5000);      
-    </script>
-    <script>
-        const alertError = document.getElementById('alert-error');
-
-        alertError.classList.remove('opacity-0');
-        alertError.classList.add('opacity-100');
-
-        setTimeout(() => {
-            alertError.classList.remove('opacity-100');
-            alertError.classList.add('opacity-0');
-        }, 5000);
-    </script>
-    <script>
-        const newPasswordInput = document.getElementById('newPassword');
-        const confirmPasswordInput = document.getElementById('confirmPassword');
-        const newPasswordToggle = document.getElementById('newPasswordToggle');
-        const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
-        const passwordInput = document.getElementById('pwd');
-        const passwordToggle = document.getElementById('pwdToggle');
-        const passwordMatchMessage = document.getElementById('passwordMatchMessage');
-
-
-
-        function checkPasswordMatch() {
-            const newPassword = newPasswordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
-
-            if (newPassword === confirmPassword) {
-                passwordMatchMessage.textContent = '';
-            } else {
-                passwordMatchMessage.textContent = 'Password does not match';
-                passwordMatchMessage.style.color = 'red';
+<body id="kt_body" class="auth-bg bgi-size-cover bgi-attachment-fixed bgi-position-center bgi-no-repeat">
+    <!--begin::Theme mode setup on page load-->
+    <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+    <!--end::Theme mode setup on page load-->
+    <!--begin::Main-->
+    <!--begin::Root-->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Page bg image-->
+        <style>
+            body {
+                background-image: url('static/assets/media/auth/bg4.jpg');
             }
-        }
 
-        newPasswordInput.addEventListener('input', checkPasswordMatch);
-        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
-        checkPasswordMatch();
-    </script>
-    <script>
-        function togglePasswordVisibility(inputId, toggleId) {
-            const input = document.getElementById(inputId);
-            const toggle = document.getElementById(toggleId);
+            [data-bs-theme="dark"] body {
+                background-image: url('static/assets/media/auth/bg4-dark.jpg');
+            }
+        </style>
+        <!--end::Page bg image-->
+        <!--begin::Authentication - Sign-in -->
+        <div class="d-flex justify-content-center flex-column flex-column-fluid flex-lg-row">
 
-            toggle.addEventListener("click", function () {
-                if (input.type === "password") {
-                    input.type = "text";
-                    toggle.innerHTML = '<i class="far fa-eye-slash"></i>';
-                } else {
-                    input.type = "password";
-                    toggle.innerHTML = '<i class="far fa-eye"></i>';
-                }
-            });
-        }
+            <!--begin::Body-->
+            <div
+                class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 p-lg-20">
+                <!--begin::Card-->
+                <div class="bg-body d-flex flex-column align-items-stretch flex-center rounded-4 w-md-600px p-20">
+                    <!--begin::Wrapper-->
+                    <div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
 
-        togglePasswordVisibility("pwd", "pwdToggle");
-        togglePasswordVisibility("newPassword", "newPasswordToggle");
-        togglePasswordVisibility("confirmPassword", "confirmPasswordToggle");
-    </script>
+                        <!--begin::Form-->
+                        {% block form %}
+                        {% endblock %}
+                        <!--end::Form-->
+
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Authentication - Sign-in-->
+    </div>
+    <!--end::Root-->
+    <!--end::Main-->
+    <!--begin::Javascript-->
+    <script>var hostUrl = "static/assets/";</script>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
+    <!--end::Global Javascript Bundle-->
+    <!--begin::Custom Javascript(used for this page only)-->
+    {% block custom_js %}{% endblock custom_js %}
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
 </body>
+<!--end::Body-->
 
 </html>

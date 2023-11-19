@@ -1,83 +1,114 @@
 {% extends 'auth/base.html' %}
 {% load static %}
-{% block title %}Register Page{% endblock title %}
+{% block title %}Sign up{% endblock title %}
 
-{% block body %}
+{% block form %}
 
-{% include "partials/notify.html" %}
-
-<section class="border-red-500 bg-blue-50 min-h-screen flex items-center justify-center">
-  <div class="bg-blue-50 p-5 flex rounded-2xl shadow-lg max-w-4xl">
-    <div class="md:w-1/2 px-5">
-      <h2 class="text-2xl font-bold text-[#002D74]">Register</h2>
-      <p class="text-sm mt-4 text-[#002D74]">If you don't have an account, please register</p>
-      <form class="mt-6" action="{% url 'register' %}" method="POST">
-        {% csrf_token %}
-        <div>
-          <label class="text-sm block text-black">Email Address</label>
-          <input type="email" name="email" id="email" placeholder="Enter Email Address"
-            class="w-full px-4 py-3 rounded-lg bg-blue-50 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            autofocus autocomplete required>
-        </div>
-
-        <div class="mt-4">
-          <label class="text-sm block text-black-100">Username</label>
-          <input type="text" name="username" id="username" placeholder="Enter Username"
-            class="w-full px-4 py-3 rounded-lg bg-blue-50 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            required>
-        </div>
-
-        <div class="mt-4">
-          <label class="text-sm block text-black-100">Password</label>
-          <div class="relative">
-            <input type="password" name="pwd" id="pwd" placeholder="Enter Password" minlength="6"
-              class="w-full px-4 py-3 rounded-lg bg-blue-50 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              required>
-            <button type="button" id="pwdToggle"
-              class="absolute right-4 top-5 text-gray-500 focus:outline-none">
-              <i class="far fa-eye"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="text-sm flex justify-between items-center mt-3">
-          <p>If you have an account</p>
-          <a href="{% url 'login' %}" class="py-2 px-5 ml-3 hover:scale-110 duration-300 text-blue-600">Login</a>
-        </div>
-
-        <button type="submit" class="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg
-                px-4 py-3 mt-6">Register</button>
-      </form>
-
-      <div class="mt-7 grid grid-cols-3 items-center text-gray-500">
-        <hr class="border-gray-500" />
-        <p class="text-center text-sm">OR</p>
-        <hr class="border-gray-500" />
-      </div>
-
-      <a href="#!" class="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-6 h-6" viewBox="0 0 48 48">
-          <defs>
-            <path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/>
-          </defs>
-          <clipPath id="b">
-            <use xlink:href="#a" overflow="visible"/>
-          </clipPath>
-          <path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"/>
-          <path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"/>
-          <path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"/>
-          <path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"/>
-        </svg>
-        <span class="ml-4">Login with Google</span>
-      </a>
-
-    </div>
-
-    <div class="w-1/2 md:block hidden ">
-      <img src="{% static 'assets/img/leaf.png' %}" class="rounded-xl" alt="page img">
-    </div>
-
+<form class="form w-100" novalidate="novalidate" id="kt_sign_up_form"
+  data-kt-redirect-url="{% url 'home' %}" action="{% url 'register' %}">
+  {% csrf_token %}
+  <!--begin::Heading-->
+  <div class="text-center mb-11">
+    <!--begin::Title-->
+    <h1 class="text-dark fw-bolder mb-3">Sign Up</h1>
+    <!--end::Title-->
+    <!--begin::Subtitle-->
+    <div class="text-gray-500 fw-semibold fs-6">Your Social Campaigns</div>
+    <!--end::Subtitle=-->
   </div>
+  <!--begin::Heading-->
+  <!--begin::Login options-->
+  <div class="row g-3 mb-9">
+    <!--begin::Col-->
+    <div class="col-md-12">
+        <!--begin::Google link=-->
+        {% load socialaccount %}        
+        <a href="{% provider_login_url 'google' %}"
+            class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
+            <img alt="Logo" src="{% static 'assets/media/svg/brand-logos/google-icon.svg' %}"
+                class="h-15px me-3" />Sign in with Google</a>
+        <!--end::Google link=-->
+    </div>
+    <!--end::Col-->
+  </div>
+  <!--end::Login options-->
+  <!--begin::Separator-->
+  <div class="separator separator-content my-14">
+    <span class="w-125px text-gray-500 fw-semibold fs-7">Or with email</span>
+  </div>
+  <!--end::Separator-->
+  <!--begin::Input group=-->
+  <div class="fv-row mb-8">
+    <!--begin::Email-->
+    <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" />
+    <!--end::Email-->
+  </div>
+  <div class="fv-row mb-8">
+    <!--begin::Username-->
+    <input type="text" placeholder="Username" name="username" autocomplete="off" class="form-control bg-transparent" />
+    <!--end::Username-->
+  </div>
+  <!--begin::Input group-->
+  <div class="fv-row mb-8" data-kt-password-meter="true">
+    <!--begin::Wrapper-->
+    <div class="mb-1">
+      <!--begin::Input wrapper-->
+      <div class="position-relative mb-3">
+        <input class="form-control bg-transparent" type="password" placeholder="Password" name="password"
+          autocomplete="off" />
+        <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+          data-kt-password-meter-control="visibility">
+          <i class="ki-duotone ki-eye-slash fs-2"></i>
+          <i class="ki-duotone ki-eye fs-2 d-none"></i>
+        </span>
+      </div>
+      <!--end::Input wrapper-->
+      <!--begin::Meter-->
+      <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+        <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+      </div>
+      <!--end::Meter-->
+    </div>
+    <!--end::Wrapper-->
+    <!--begin::Hint-->
+    <div class="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols.</div>
+    <!--end::Hint-->
+  </div>
+  <!--end::Input group=-->
+  <!--end::Input group=-->
+  <div class="fv-row mb-8">
+    <!--begin::Repeat Password-->
+    <input placeholder="Repeat Password" name="confirm-password" type="password" autocomplete="off"
+      class="form-control bg-transparent" />
+    <!--end::Repeat Password-->
+  </div>
+  <!--end::Input group=-->  
+  <!--begin::Submit button-->
+  <div class="d-grid mb-10">
+    <button type="submit" id="kt_sign_up_submit" class="btn btn-primary">
+      <!--begin::Indicator label-->
+      <span class="indicator-label">Sign up</span>
+      <!--end::Indicator label-->
+      <!--begin::Indicator progress-->
+      <span class="indicator-progress">Please wait...
+        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+      <!--end::Indicator progress-->
+    </button>
+  </div>
+  <!--end::Submit button-->
+  <!--begin::Sign up-->
+  <div class="text-gray-500 text-center fw-semibold fs-6">Already have an Account?
+    <a href="{% url 'login' %}" class="link-primary fw-semibold">Sign
+      in</a>
+  </div>
+  <!--end::Sign up-->
+</form>
 
-</section>
-{% endblock body %}
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'assets/js/custom/authentication/sign-up/general.js' %}"></script>
+{% endblock custom_js %}
