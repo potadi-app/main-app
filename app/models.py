@@ -1,4 +1,3 @@
-from collections.abc import Iterable
 from django.db import models
 from django.contrib.auth.hashers import make_password
 
@@ -7,6 +6,7 @@ class Users(models.Model):
     email = models.EmailField(primary_key=True)
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
 
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)

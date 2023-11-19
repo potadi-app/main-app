@@ -21,6 +21,8 @@ def login(request):
             if user:
                 if check_password(password, user.password):
                     request.session['email'] = user.email
+                    request.session['username'] = user.username
+                    request.session['profile_picture'] = user.avatar.url
                     return JsonResponse({'success': True, 'message': f'Selamat Datang {user.username}!'})
                 else:
                     return JsonResponse({'success': False, 'message': 'Password salah!'})
@@ -49,6 +51,8 @@ def register(request):
             else:
                 Users.objects.create(username=username, email=email, password=password)
                 request.session['email'] = email
+                request.session['username'] = username
+                request.session['profile_picture'] = '/media/avatars/default.png'
                 return JsonResponse({'success': True, 'message': 'Berhasil mendaftar!'})
         else:
             return JsonResponse({'success': False, 'message': 'Semua field harus diisi!'})

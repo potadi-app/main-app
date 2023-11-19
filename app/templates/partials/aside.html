@@ -22,7 +22,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a href="#!" class="menu-link {% if request.path == '/' %}active{% endif %}">
+                    <a href="{% url 'home' %}" class="menu-link {% if request.path == '/' %}active{% endif %}">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-element-11 fs-2">
                                 <span class="path1"></span>
