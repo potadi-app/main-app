@@ -171,6 +171,6 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = 'login_success'
 ACCOUNT_URLS = 'app.urls'
 
-MODEL = load_model(f'app/ml/model/model.h5')
-MODEL.load_weights(f'app/ml/model/weight.h5')
+MODEL = load_model(f'{BASE_DIR}/app/ml/model/model.h5')
+MODEL.load_weights(f'{BASE_DIR}/app/ml/model/weight.h5')
 TF_ENABLE_ONEDNN_OPTS=0
