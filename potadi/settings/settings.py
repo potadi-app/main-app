@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from keras.models import load_model
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -169,3 +170,7 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_REDIRECT_URL = 'login_success'
 ACCOUNT_URLS = 'app.urls'
+
+MODEL = load_model(f'app/ml/model/model.h5')
+MODEL.load_weights(f'app/ml/model/weight.h5')
+TF_ENABLE_ONEDNN_OPTS=0

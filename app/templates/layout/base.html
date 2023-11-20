@@ -56,8 +56,13 @@
 					<!--begin::Footer-->
 					{% include "partials/footer.html" %}					
                     <!--end::Footer-->
+
+					<!--begin::Scrolltop-->
+					{% include "partials/scrolltop.html" %}
+					<!--end::Scrolltop-->
 				</div>
 				<!--end::Wrapper-->
+				{% block modals %}{% endblock modals %}
 
             </div>
         </div>        
@@ -80,6 +85,7 @@
 		<script src="{% static 'assets/js/custom/utilities/modals/create-campaign.js' %}"></script>
 		<script src="{% static 'assets/js/custom/utilities/modals/create-app.js' %}"></script>
 		<script src="{% static 'assets/js/custom/utilities/modals/users-search.js' %}"></script>
+		{% block custom_js %}{% endblock custom_js %}
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
     </body>

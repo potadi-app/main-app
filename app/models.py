@@ -21,12 +21,15 @@ class Users(models.Model):
 
 class ImageHistory(models.Model):
     id = models.AutoField(primary_key=True)
-    filename = models.CharField(max_length=100)
     label = models.CharField(max_length=100)
     confident = models.FloatField()
     upload_date = models.DateTimeField(auto_now_add=True)
     image_data = models.ImageField(upload_to='images-history/')
-    user_email = models.ForeignKey(Users, to_field='email', on_delete=models.CASCADE)
+    user_email = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.filename
+        return self.user_email
+    
+    class Meta:
+        verbose_name_plural = 'Image History'
+    

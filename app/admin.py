@@ -3,3 +3,4 @@ from .models import Users, ImageHistory
 # Register your models here.
 
 admin.site.register(Users)
+admin.site.register(ImageHistory)

@@ -1,4 +1,5 @@
 {% extends "layout/base.html" %}
+{% load static %}
 {% block title %}Dashboard{% endblock title %}
 
 {% block content %}
@@ -19,18 +20,18 @@
                             <!--begin::Heading-->
                             <div class="mb-20 pt-xl-13">
                                 <!--begin::Title-->
-                                <h3 class="fw-bold text-white fs-4x mb-5 ms-n1">Welcome {{data.username}}</h3>
+                                <h3 class="fw-bold text-white fs-4x mb-5 ms-n1">Selamat Datang {{data.username}}</h3>
                                 <!--end::Title-->
                                 <!--begin::Description-->
-                                <span class="fw-bold text-white fs-4 mb-8 d-block">in Potato Diseases Identification Apps</span>
+                                <span class="fw-bold text-white fs-4 mb-8 d-block">di Aplikasi Identifikasi Penyakit Daun Kentang</span>
                                 <!--end::Description-->
                                 
                             </div>
                             <!--end::Heading-->
                             <!--begin::Action-->
                             <div class="mb-xl-10 mb-3">
-                                <a href='#' class="btn btn-primary fw-semibold me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan">Start Diagnose</a>
-                                <a href="#!" class="btn btn-color-white bg-transparent btn-outline fw-semibold" style="border: 1px solid rgba(255, 255, 255, 0.3)">See History</a>
+                                <a href="{% url 'diagnosis' %}" class="btn btn-primary fw-semibold me-2">Mulai Diagnosa</a>
+                                <a href="#!" class="btn btn-color-white bg-transparent btn-outline fw-semibold" style="border: 1px solid rgba(255, 255, 255, 0.3)">Lihat Histori</a>
                             </div>
                             <!--begin::Action-->
                         </div>

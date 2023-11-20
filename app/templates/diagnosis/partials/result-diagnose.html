@@ -1,0 +1,57 @@
+{% load static %}
+<div class="card card-flush h-xl-100 border-0" id="result-diagnose">
+    <!--begin::Body-->
+    <div class="card-body text-center pb-5">
+        <!--begin::Overlay-->
+        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="{{ result.data.image_file }}">
+            <!--begin::Image-->
+            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7" style="height: 266px;background-image:url('{{ result.data.image_file }}')"></div>
+            <!--end::Image-->
+            <!--begin::Action-->
+            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
+                <i class="ki-duotone ki-eye fs-3x text-white">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    <span class="path3"></span>
+                </i>
+            </div>
+            <!--end::Action-->
+        </a>
+        <!--end::Overlay-->
+        <!--begin::Info-->
+        <div class="d-flex align-items-end flex-stack mb-1">
+            <!--begin::Title-->
+            <div class="text-start">
+                <span class="fw-bold text-gray-800 cursor-pointer text-hover-primary fs-4 d-block">{{ result.data.filename }}</span>
+                {% load tz %}
+                <span class="text-gray-400 mt-1 fw-bold fs-6">Pengambilan: {{ result.data.dateTaken|timezone:"Asia/Jakarta"|date:"j F Y - H:i:s" }}</span>
+            </div>
+            <!--end::Title-->
+            <!--begin::Total-->
+            {% comment %} <span class="text-gray-600 text-end fw-bold fs-6">$2,630</span> {% endcomment %}
+            <!--end::Total-->
+        </div>
+        <!--end::Info-->
+    </div>
+    <!--end::Body-->
+    <!--begin::Footer-->
+    <div class="card-footer d-flex flex-stack pt-0">
+        <!--begin::Link-->
+
+        {% with label=result.data.label %}
+            {% if label == 'Late Blight' %}
+                <span class="btn btn-sm btn-danger flex-shrink-0 me-2">{{ label }}</span>
+            {% elif label == 'Early Blight' %}
+                <span class="btn btn-sm btn-warning flex-shrink-0 me-2">{{ label }}</span>
+            {% else %}        
+                <span class="btn btn-sm btn-success flex-shrink-0 me-2">{{ label }}</span>
+            {% endif %}
+        {% endwith %}
+
+        <!--end::Link-->
+        <!--begin::Link-->
+        <a href="{% url 'diagnosis' %}" class="btn btn-sm btn-light flex-shrink-0" href="#!">Diagnosa Ulang</a>
+        <!--end::Link-->
+    </div>
+    <!--end::Footer-->
+</div>
