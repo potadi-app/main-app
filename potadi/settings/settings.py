@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from keras.models import load_model
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -60,22 +59,6 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
-
-SOCIALACCOUNT_LOGIN_ON_GET=True
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ROOT_URLCONF = 'potadi.urls'
 
@@ -173,5 +156,22 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = 'login_success'
 ACCOUNT_URLS = 'app.urls'
 
-MODEL = load_model(f'{BASE_DIR}/app/ml/model/model.h5')
-MODEL.load_weights(f'{BASE_DIR}/app/ml/model/weight.h5')
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
+SOCIAL_AUTH_GOOGLE_AUTH = {
+    'AUTO_SIGNUP': True,
+}
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
