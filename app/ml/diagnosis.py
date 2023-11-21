@@ -16,7 +16,7 @@ def allowed_file(filename):
 def predict(file):
     try:
         img = Image.open(BytesIO(file)).convert("RGB")
-        img = img.resize((224, 224))
+        img = img.resize((150, 150))
         img = img_to_array(img)
         img = np.expand_dims(img, axis=0)
         # print(f"Image shape after preprocessing: {img.shape}")
