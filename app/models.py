@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 # Create your models here.
 class Users(models.Model):
@@ -30,6 +32,10 @@ class ImageHistory(models.Model):
     def __str__(self):
         return self.user_email
     
+
     class Meta:
         verbose_name_plural = 'Image History'
     
+@receiver(pre_delete, sender=ImageHistory)
+def delete_image(sender, instance, **kwargs):
+    instance.image_data.delete(save=False)

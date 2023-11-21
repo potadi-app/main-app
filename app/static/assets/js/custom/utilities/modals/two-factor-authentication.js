@@ -109,17 +109,14 @@ var KTModalTwoFactorAuthentication = (function () {
           e.preventDefault(),
             f &&
               f.validate().then(function (e) {
-                console.log("validated!");
-                var formData = new FormData(
-                  document.querySelector('[data-kt-element="apps-form"]')
-                );
+                console.log("validated!");                
                 "Valid" == e
                   ? (u.setAttribute("data-kt-indicator", "on"),
                     (u.disabled = !0),
                     document.getElementById("form-diagnose").submit(),
                     setTimeout(function () {
                       u.removeAttribute("data-kt-indicator"), (u.disabled = !1);
-                    }, 15000))
+                    }, 60000))
                   : Swal.fire({
                       text: "Sorry, looks like there are some errors detected, please try again.",
                       icon: "error",

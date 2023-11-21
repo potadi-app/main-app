@@ -3,4 +3,4 @@ avatars/*
 !avatars/default.png
 
 # Mengabaikan semua file di dalam direktori 'image-history'
-image-history/*
+images-history/*

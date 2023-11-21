@@ -4,7 +4,10 @@ from . import views, authentication
 urlpatterns = [
     path('', views.home, name='home'),
     path('diagnosis/', views.diagnosis, name='diagnosis'),
-    
+    path('history/', views.history, name='history'),
+    path('del-history/<int:id>', views.delete_history, name='delete_history'),
+    path('del-sel-history/', views.delete_sel_history, name='delete_sel_history'),
+        
     path('auth/login/', authentication.login, name='login'),
     path('register/', authentication.register, name='register'),
     path('forgot-password/', authentication.forgot_password, name='forgot_password'),

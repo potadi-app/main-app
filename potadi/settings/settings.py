@@ -161,7 +161,7 @@ MESSAGE_TAGS = {
 }
 
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -173,4 +173,3 @@ ACCOUNT_URLS = 'app.urls'
 
 MODEL = load_model(f'{BASE_DIR}/app/ml/model/model.h5')
 MODEL.load_weights(f'{BASE_DIR}/app/ml/model/weight.h5')
-TF_ENABLE_ONEDNN_OPTS=0
