@@ -2,23 +2,18 @@ from keras.utils import img_to_array
 from PIL import Image
 from io import BytesIO
 from potadi.settings.settings import BASE_DIR
+from keras.models import load_model
 import numpy as np
 
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-def load_model():
-    from keras.models import load_model
-
-    MODEL = load_model(f'{BASE_DIR}/app/ml/model/model-1.h5')
-    MODEL.load_weights(f'{BASE_DIR}/app/ml/model/weight-1.h5')
-    return MODEL    
-
 
 def predict(file):
+    model = load_model(f'{BASE_DIR}/app/ml/model/model-1.h5')
+    model.load_weights(f'{BASE_DIR}/app/ml/model/weight-1.h5')
     try:
-        model = load_model()
         img = Image.open(BytesIO(file)).convert("RGB")
         img = img.resize((224, 224))
         img = img_to_array(img)
