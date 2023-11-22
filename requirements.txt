@@ -10,7 +10,7 @@ django-allauth==0.58.2
 filelock==3.12.4
 idna==3.4
 keras==2.15.0
-mysqlclient==2.0.0
+mysqlclient==2.1.1
 numpy==1.26.2
 oauthlib==3.2.2
 opencv-python==4.8.1.78
