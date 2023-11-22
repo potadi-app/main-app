@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse

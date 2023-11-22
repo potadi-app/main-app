@@ -44,25 +44,29 @@ def diagnosis(request):
                     user_email=user_email
                 )
                 image_history.save()                
-
-                get_image = ImageHistory.objects.get(id=image_history.id)
-                filename = get_image.image_data.name
-                image_url = get_image.image_data.url
-                dateTaken = get_image.upload_date
-                result = {
-                    'status': 200,
-                    'message': 'Diagnosis success',
-                    'data': {
-                        'filename': basename(filename),
-                        'label': labels[y_pred],
-                        'confident': conf_lvl,
-                        'dateTaken': dateTaken,
-                        'image_file': image_url,
-                    }
-                }
                 
-                data = get_user_data(request)
-                return render(request, 'diagnosis/diagnosis.html', {'data': data, 'result': result})
+                try:
+                    get_image = ImageHistory.objects.get(id=image_history.id)
+                    filename = get_image.image_data.name
+                    image_url = get_image.image_data.url
+                    dateTaken = get_image.upload_date
+                    result = {
+                        'status': 200,
+                        'message': 'Diagnosis success',
+                        'data': {
+                            'filename': basename(filename),
+                            'label': labels[y_pred],
+                            'confident': conf_lvl,
+                            'dateTaken': dateTaken,
+                            'image_file': image_url,
+                        }
+                    }
+                    
+                    data = get_user_data(request)
+                    return render(request, 'diagnosis/diagnosis.html', {'data': data, 'result': result})
+                except Exception as e:
+                    print(e)
+                    return JsonResponse({'status': 'error', 'message': str(e)})
             except Exception as e:
                 print(e)
                 return JsonResponse({'status': 'error', 'message': str(e)})

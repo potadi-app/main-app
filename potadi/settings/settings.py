@@ -40,11 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',    
     'app',
-
+    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -83,13 +88,6 @@ WSGI_APPLICATION = 'potadi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
@@ -148,10 +146,8 @@ MESSAGE_TAGS = {
 CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 
 LOGIN_REDIRECT_URL = 'login_success'
 
@@ -164,14 +160,12 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-        'AUTO_REGISTER': True,
-        'AUTO_SIGNIN': True,
     }
 }
 SOCIALACCOUNT_QUERY_EMAIL = False
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
-# settings.py
+
 SOCIALACCOUNT_SIGNUP_FORM_CLASS = 'app.adapter.MySocialAccountSignupForm'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
