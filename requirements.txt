@@ -25,5 +25,6 @@ social-auth-core==4.5.0
 sqlparse==0.4.4
 typing_extensions==4.8.0
 tzdata==2023.3
+tensorflow
 urllib3==2.1.0
 whitenoise==6.6.0
