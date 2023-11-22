@@ -37,7 +37,7 @@ def diagnosis(request):
 
                 user_email = request.session.get('email')              
                             
-                image_history = ImageHistory.objects.create(
+                image_history = ImageHistory(
                     label=labels[y_pred],
                     confident=conf_lvl,
                     image_data=image_file,
@@ -65,7 +65,7 @@ def diagnosis(request):
                 return render(request, 'diagnosis/diagnosis.html', {'data': data, 'result': result})
             except Exception as e:
                 print(e)
-                return JsonResponse({'status': 'error', 'message': 'Error while diagnosing image'})
+                return JsonResponse({'status': 'error', 'message': str(e)})
             
 @login_required
 def history(request):
