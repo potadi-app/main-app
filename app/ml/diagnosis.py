@@ -7,8 +7,8 @@ import numpy as np
 
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'])
 
-MODEL = load_model(f'{BASE_DIR}/app/ml/model/model.h5')
-MODEL.load_weights(f'{BASE_DIR}/app/ml/model/weight.h5')
+MODEL = load_model(f'{BASE_DIR}/app/ml/model/model-1.h5')
+MODEL.load_weights(f'{BASE_DIR}/app/ml/model/weight-1.h5')
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -16,7 +16,7 @@ def allowed_file(filename):
 def predict(file):
     try:
         img = Image.open(BytesIO(file)).convert("RGB")
-        img = img.resize((150, 150))
+        img = img.resize((224, 224))
         img = img_to_array(img)
         img = np.expand_dims(img, axis=0)
         # print(f"Image shape after preprocessing: {img.shape}")

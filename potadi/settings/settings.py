@@ -154,24 +154,23 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGIN_REDIRECT_URL = 'login_success'
-ACCOUNT_URLS = 'app.urls'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
             'profile',
-            'email',
+            # 'email',
         ],
         'AUTH_PARAMS': {
             'access_type': 'online',
-        }
+        },
+        'AUTO_REGISTER': True,
+        'AUTO_SIGNIN': True,
     }
 }
+SOCIALACCOUNT_QUERY_EMAIL = False
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
-
-SOCIAL_AUTH_GOOGLE_AUTH = {
-    'AUTO_SIGNUP': True,
-}
+ACCOUNT_ADAPTER = 'app.adapter.MyAdapter'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
