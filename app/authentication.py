@@ -45,8 +45,9 @@ def register(request):
 
         if username and email and password:
             user = Users.objects.filter(email=email).first()
+            user_provider_google = SocialAccount.objects.filter(user__email=email, provider='google').first()
 
-            if user:
+            if user or user_provider_google:
                 return JsonResponse({'success': False, 'message': 'Email sudah terdaftar!'})
             else:
                 Users.objects.create(username=username, email=email, password=password)

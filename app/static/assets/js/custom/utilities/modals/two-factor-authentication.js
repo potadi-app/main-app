@@ -1,4 +1,13 @@
 "use strict";
+function turnOffCamera() {
+  const videoElement = document.getElementById("cameraFeed");
+
+  if (videoElement.srcObject) {
+    const tracks = videoElement.srcObject.getTracks();
+    tracks.forEach((track) => track.stop());
+    videoElement.srcObject = null;
+  }
+}
 var KTModalTwoFactorAuthentication = (function () {
   var e,
     t,
@@ -38,8 +47,17 @@ var KTModalTwoFactorAuthentication = (function () {
           var t = o.querySelector('[name="auth_option"]:checked');
           o.classList.add("d-none"),
             "sms" == t.value
-              ? i.classList.remove("d-none")
-              : d.classList.remove("d-none");
+              ? (i.classList.remove("d-none"),
+              navigator.mediaDevices
+              .getUserMedia({ video: true })
+              .then(function (stream) {
+                var video = document.getElementById("cameraFeed");
+                video.srcObject = stream;
+              })
+              .catch(function (error) {
+                console.log("Error accessing the camera: ", error);
+              }))
+              : d.classList.remove("d-none");            
         }),
         (l = FormValidation.formValidation(a, {
           fields: {
@@ -94,7 +112,9 @@ var KTModalTwoFactorAuthentication = (function () {
         }),
         (f = FormValidation.formValidation(c, {
           fields: {
-            code: { validators: { notEmpty: { message: "Code is required" } } },
+            image_file: {
+              validators: { notEmpty: { message: "Unggah minimal 1 gambar!" } },
+            },
           },
           plugins: {
             trigger: new FormValidation.plugins.Trigger(),
@@ -109,16 +129,18 @@ var KTModalTwoFactorAuthentication = (function () {
           e.preventDefault(),
             f &&
               f.validate().then(function (e) {
-                console.log("validated!");                
+                console.log("validated!");
                 "Valid" == e
                   ? (u.setAttribute("data-kt-indicator", "on"),
                     (u.disabled = !0),
+                    (document.getElementById("dismiss-modal").style.display =
+                      "none"),
                     document.getElementById("form-diagnose").submit(),
                     setTimeout(function () {
                       u.removeAttribute("data-kt-indicator"), (u.disabled = !1);
                     }, 60000))
                   : Swal.fire({
-                      text: "Sorry, looks like there are some errors detected, please try again.",
+                      text: "Belum ada gambar yang di unggah.",
                       icon: "error",
                       buttonsStyling: !1,
                       confirmButtonText: "Ok, got it!",
@@ -162,4 +184,5 @@ KTUtil.onDOMContentLoaded(function () {
       done();
     },
   });
+  
 });
