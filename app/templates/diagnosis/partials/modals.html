@@ -128,9 +128,10 @@
                     <!--end::Notice-->
                     <!--begin::Form-->
                     <form data-kt-element="sms-form" class="form" action="#">
+
                         <!--begin::Input group-->
                         <div class="mb-10 fv-row">
-                            {% comment %} <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Mobile number with country code..." name="mobile" /> {% endcomment %}
+                            <img src="{% static 'assets\media\icons\duotune\flip.png' %}" alt="flip" class="img-fluid mb-2" style="max-width: 8%; cursor: pointer; float: right;" onclick="flipCamera()">
                             <video class="img-fluid rounded" id="cameraFeed" autoplay></video>
                         </div>
                         <!--end::Input group-->

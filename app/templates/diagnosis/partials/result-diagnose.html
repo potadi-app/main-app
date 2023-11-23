@@ -24,7 +24,7 @@
             <div class="text-start">
                 <span class="fw-bold text-gray-800 cursor-pointer text-hover-primary fs-4 d-block">{{ result.data.filename }}</span>
                 {% load tz %}
-                <span class="text-gray-400 mt-1 fw-bold fs-6">Pengambilan: {{ result.data.dateTaken|timezone:"Asia/Jakarta"|date:"j F Y - H:i:s" }}</span>
+                <span class="text-gray-400 mt-1 fw-bold fs-6">Pengambilan: {{ result.data.dateTaken|date:"j F Y - H:i:s" }}</span>
             </div>
             <!--end::Title-->
             <!--begin::Total-->

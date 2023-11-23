@@ -8,6 +8,34 @@ function turnOffCamera() {
     videoElement.srcObject = null;
   }
 }
+function flipCamera() {
+  const videoElement = document.getElementById("cameraFeed");
+
+  if (videoElement.srcObject) {
+    const tracks = videoElement.srcObject.getTracks();
+
+    // Hentikan semua track
+    tracks.forEach((track) => track.stop());
+
+    // Balik arah kamera
+    const currentFacingMode = tracks[0].getSettings().facingMode;
+    const newFacingMode = currentFacingMode === "user" ? "environment" : "user";
+
+    // Dapatkan constraint baru dengan mengganti facingMode
+    const newConstraints = { video: { facingMode: newFacingMode } };
+
+    // Perbarui track dengan constraint baru
+    navigator.mediaDevices
+      .getUserMedia(newConstraints)
+      .then((stream) => {
+        videoElement.srcObject = stream;
+      })
+      .catch((error) => {
+        console.error("Gagal mengambil kamera:", error);
+      });
+  }
+}
+
 var KTModalTwoFactorAuthentication = (function () {
   var e,
     t,
@@ -48,16 +76,16 @@ var KTModalTwoFactorAuthentication = (function () {
           o.classList.add("d-none"),
             "sms" == t.value
               ? (i.classList.remove("d-none"),
-              navigator.mediaDevices
-              .getUserMedia({ video: true })
-              .then(function (stream) {
-                var video = document.getElementById("cameraFeed");
-                video.srcObject = stream;
-              })
-              .catch(function (error) {
-                console.log("Error accessing the camera: ", error);
-              }))
-              : d.classList.remove("d-none");            
+                navigator.mediaDevices
+                  .getUserMedia({ video: true })
+                  .then(function (stream) {
+                    var video = document.getElementById("cameraFeed");
+                    video.srcObject = stream;
+                  })
+                  .catch(function (error) {
+                    console.log("Error accessing the camera: ", error);
+                  }))
+              : d.classList.remove("d-none");
         }),
         (l = FormValidation.formValidation(a, {
           fields: {
@@ -176,13 +204,30 @@ KTUtil.onDOMContentLoaded(function () {
       if (this.files.length > 1) {
         this.removeFile(this.files[0]);
       }
+      var allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/JPEG",
+        "image/PNG",
+        "image/JPG",
+      ];
+      if (allowedTypes.indexOf(file.type) === -1) {
+        Swal.fire({
+          text: "File harus berupa gambar!",
+          icon: "error",
+          buttonsStyling: !1,
+          confirmButtonText: "Ok, got it!",
+          customClass: { confirmButton: "btn btn-primary" },
+        });
+        this.removeFile(file);
+      } else {
+        var fileList = new DataTransfer();
+        fileList.items.add(file);
 
-      var fileList = new DataTransfer();
-      fileList.items.add(file);
-
-      document.getElementById("imageInput").files = fileList.files;
-      done();
+        document.getElementById("imageInput").files = fileList.files;
+        done();
+      }
     },
   });
-  
 });
