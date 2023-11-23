@@ -8,6 +8,29 @@ function turnOffCamera() {
     videoElement.srcObject = null;
   }
 }
+function turnOnCamera() {
+  const videoElement = document.getElementById("cameraFeed");
+
+  // Hentikan kamera jika sudah berjalan
+  if (videoElement.srcObject) {
+    const tracks = videoElement.srcObject.getTracks();
+    tracks.forEach((track) => track.stop());
+  }
+
+  // Dapatkan constraint baru dengan facingMode user
+  const constraints = { video: { facingMode: "user" } };
+
+  // Mengambil kamera dengan constraint baru
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then((stream) => {
+      videoElement.srcObject = stream;
+    })
+    .catch((error) => {
+      console.error("Gagal mengambil kamera:", error);
+    });
+}
+
 function flipCamera() {
   const videoElement = document.getElementById("cameraFeed");
 
@@ -92,15 +115,7 @@ var KTModalTwoFactorAuthentication = (function () {
           o.classList.add("d-none"),
             "sms" == t.value
               ? (i.classList.remove("d-none"),
-                navigator.mediaDevices
-                  .getUserMedia({ video: true })
-                  .then(function (stream) {
-                    var video = document.getElementById("cameraFeed");
-                    video.srcObject = stream;
-                  })
-                  .catch(function (error) {
-                    console.log("Error accessing the camera: ", error);
-                  }))
+              turnOnCamera())
               : d.classList.remove("d-none");
         }),
         (l = FormValidation.formValidation(a, {
