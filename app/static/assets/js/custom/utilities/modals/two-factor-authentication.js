@@ -18,9 +18,8 @@ function flipCamera() {
     tracks.forEach((track) => track.stop());
 
     // Balik arah kamera
-    const currentFacingMode = tracks[0].getSettings().facingMode;
-    const newFacingMode = currentFacingMode === "user" ? "environment" : "user";
-
+    const newFacingMode = toggleFacingMode(tracks);
+    console.log("Facing Mode: " + newFacingMode);
     // Dapatkan constraint baru dengan mengganti facingMode
     const newConstraints = { video: { facingMode: newFacingMode } };
 
@@ -34,6 +33,20 @@ function flipCamera() {
         console.error("Gagal mengambil kamera:", error);
       });
   }
+}
+
+function toggleFacingMode(tracks) {
+  // Jika facingMode tidak tersedia pada track pertama, coba cari pada track lain
+  for (const track of tracks) {
+    const settings = track.getSettings();
+    if (settings.facingMode) {
+      // Jika facingMode ditemukan, balik nilainya
+      return settings.facingMode === "user" ? "environment" : "user";
+    }
+  }
+
+  // Jika tidak ada facingMode yang ditemukan, kembalikan nilai default
+  return "user";
 }
 
 var KTModalTwoFactorAuthentication = (function () {
