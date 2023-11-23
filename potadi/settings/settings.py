@@ -52,6 +52,14 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+ACCOUNT_FORMS = {
+'signup': 'app.adapter.MySocialAccountSignupForm',
+}
+
+ACCOUNT_PIPELINE = (
+    'app.pipeline.superuser_check',
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -166,6 +174,6 @@ SOCIALACCOUNT_QUERY_EMAIL = False
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
 
-SOCIALACCOUNT_SIGNUP_FORM_CLASS = 'app.adapter.MySocialAccountSignupForm'
+# SOCIALACCOUNT_SIGNUP_FORM_CLASS = 'app.adapter.MySocialAccountSignupForm'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
