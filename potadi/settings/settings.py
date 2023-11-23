@@ -56,9 +56,8 @@ ACCOUNT_FORMS = {
 'signup': 'app.adapter.MySocialAccountSignupForm',
 }
 
-ACCOUNT_PIPELINE = (
-    'app.pipeline.superuser_check',
-)
+ACCOUNT_SIGNUP = False
+SOCIALACCOUNT_AUTO_SIGNUP = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
