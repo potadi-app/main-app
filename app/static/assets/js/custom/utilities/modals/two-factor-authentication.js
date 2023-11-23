@@ -19,7 +19,8 @@ function flipCamera() {
 
     // Balik arah kamera
     const newFacingMode = toggleFacingMode(tracks);
-    console.log("Facing Mode: " + newFacingMode);
+    console.log("Facing Mode:" + newFacingMode);
+
     // Dapatkan constraint baru dengan mengganti facingMode
     const newConstraints = { video: { facingMode: newFacingMode } };
 
@@ -36,16 +37,18 @@ function flipCamera() {
 }
 
 function toggleFacingMode(tracks) {
-  // Jika facingMode tidak tersedia pada track pertama, coba cari pada track lain
-  for (const track of tracks) {
-    const settings = track.getSettings();
-    if (settings.facingMode) {
-      // Jika facingMode ditemukan, balik nilainya
-      return settings.facingMode === "user" ? "environment" : "user";
+  // Cek apakah perangkat mendukung facingMode
+  if (tracks.length > 0 && tracks[0].getCapabilities) {
+    const capabilities = tracks[0].getCapabilities();
+
+    // Periksa apakah facingMode dapat diatur
+    if (capabilities.facingMode) {
+      // Jika dapat diatur, balik nilai yang sesuai
+      return capabilities.facingMode.includes("user") ? "environment" : "user";
     }
   }
 
-  // Jika tidak ada facingMode yang ditemukan, kembalikan nilai default
+  // Jika tidak dapat menemukan atau facingMode tidak dapat diatur, kembalikan nilai default
   return "user";
 }
 
