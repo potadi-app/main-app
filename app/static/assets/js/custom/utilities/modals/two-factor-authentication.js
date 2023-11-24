@@ -75,6 +75,71 @@ function toggleFacingMode(tracks) {
   return "user";
 }
 
+function takeSnapshot() {
+  const video = document.getElementById("cameraFeed");
+  const captureButton = document.getElementById("capture-btn");
+  const inputImageData = document.getElementById("capture-image-data");
+  const flipCamera = document.getElementById("flip");
+  const submitButton = document.getElementById("submit-btn");
+  const retake = document.getElementById("re-take");
+
+  // Ambil dimensi kontainer
+  const container = document.getElementById("capture-container");
+  const containerWidth = container.offsetWidth;
+  const containerHeight = container.offsetHeight;
+
+  // Ambil atau buat elemen canvas
+  const canvas =
+    document.getElementById("capture-image") ||
+    document.createElement("canvas");
+  canvas.id = "capture-image";
+
+  // Atur ukuran canvas sesuai dengan dimensi kontainer
+  canvas.width = containerWidth;
+  canvas.height = containerHeight;
+
+  canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+  canvas.style.display = "block";
+  video.style.display = "none";
+  flipCamera.style.display = "none";
+  retake.style.display = "block";
+  submitButton.removeAttribute("disabled");
+
+  // Convert the snapshot to an image URL (base64 data URL).
+  const imageDataURL = canvas.toDataURL("image/png"); // 'image/png' to 'image/jpeg' if needed.
+  const imageToShow = imageDataURL.split(",")[1];
+
+  inputImageData.value = imageToShow;
+  captureButton.style.display = "none";
+  turnOffCamera();
+}
+
+function retakeSnapshot() {
+  const video = document.getElementById("cameraFeed");
+  const captureButton = document.getElementById("capture-btn");
+  const inputImageData = document.getElementById("capture-image-data");
+  const flipCamera = document.getElementById("flip");
+  const retakeButton = document.getElementById("re-take");
+  const submitButton = document.getElementById("submit-btn");
+
+  // Tampilkan kembali video dan tombol ambil gambar
+  video.style.display = "block";
+  flipCamera.style.display = "block";
+  captureButton.style.display = "block";
+  turnOnCamera();
+
+  // Sembunyikan canvas dan tombol retake
+  const canvas = document.getElementById("capture-image");
+  canvas.style.display = "none";
+  retakeButton.style.display = "none";
+
+  // Kosongkan nilai inputImageData
+  inputImageData.value = "";
+
+  // Nonaktifkan tombol submit
+  submitButton.setAttribute("disabled", "disabled");
+}
+
 var KTModalTwoFactorAuthentication = (function () {
   var e,
     t,
@@ -114,14 +179,13 @@ var KTModalTwoFactorAuthentication = (function () {
           var t = o.querySelector('[name="auth_option"]:checked');
           o.classList.add("d-none"),
             "sms" == t.value
-              ? (i.classList.remove("d-none"),
-              turnOnCamera())
+              ? (i.classList.remove("d-none"), turnOnCamera())
               : d.classList.remove("d-none");
         }),
         (l = FormValidation.formValidation(a, {
           fields: {
-            mobile: {
-              validators: { notEmpty: { message: "Mobile no is required" } },
+            "image_file": {
+              validators: { notEmpty: { message: "Harap ambil gambar terlebih dahulu." } },
             },
           },
           plugins: {
@@ -141,19 +205,13 @@ var KTModalTwoFactorAuthentication = (function () {
                   "Valid" == e
                     ? (r.setAttribute("data-kt-indicator", "on"),
                       (r.disabled = !0),
+                      (document.getElementById("dismiss-modal").style.display =
+                      "none"),
+                      document.getElementById("form-diagnose-capture").submit(),
                       setTimeout(function () {
                         r.removeAttribute("data-kt-indicator"),
-                          (r.disabled = !1),
-                          Swal.fire({
-                            text: "Mobile number has been successfully submitted!",
-                            icon: "success",
-                            buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: { confirmButton: "btn btn-primary" },
-                          }).then(function (e) {
-                            e.isConfirmed && (t.hide(), p());
-                          });
-                      }, 2e3))
+                          (r.disabled = !1);                          
+                      }, 60000))
                     : Swal.fire({
                         text: "Sorry, looks like there are some errors detected, please try again.",
                         icon: "error",

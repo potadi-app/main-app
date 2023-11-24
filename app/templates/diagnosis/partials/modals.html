@@ -124,21 +124,36 @@
                     <h3 class="text-dark fw-bold fs-3 mb-5">Tangkap Gambar</h3>
                     <!--end::Heading-->
                     <!--begin::Notice-->
-                    <div class="text-muted fw-semibold mb-10">Enter your mobile phone number with country code and we will send you a verification code upon request.</div>
+                    <div class="text-muted fw-semibold mb-10">Pastikan anda berada dalam pencahayaan yang cukup agar hasil diagnosa lebih akurat.</div>
                     <!--end::Notice-->
                     <!--begin::Form-->
-                    <form data-kt-element="sms-form" class="form" action="#">
-
+                    <form id="form-diagnose-capture" data-kt-element="sms-form" class="form" action="{% url 'diagnosis' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <!--begin::Input group-->
-                        <div class="mb-10 fv-row">
-                            <img src="{% static 'assets\media\icons\duotune\flip.png' %}" alt="flip" class="img-fluid mb-2" style="max-width: 8%; cursor: pointer; float: right;" onclick="flipCamera()">
+                        <div class="mb-10 fv-row" id="capture-container">
+                            <div class="d-flex justify-content-end align-items-end">
+                                <button type="button" id="re-take" class="btn btn-warning mb-2" style="float: right; display: none;" onclick="retakeSnapshot()">Ambil Ulang</button>
+                                <img id="flip" src="{% static 'assets\media\icons\duotune\flip.png' %}" alt="flip" class="img-fluid mb-2" style="max-width: 8%; cursor: pointer;" onclick="flipCamera()">
+                            </div>
                             <video class="img-fluid rounded" id="cameraFeed" autoplay></video>
+                            <div class="d-flex justify-content-center align-items-center">                                
+                                <canvas id="capture-image" class="img-fluid rounded" style="display: none;"></canvas>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">                                
+                                <i id="capture-btn" class="ki-duotone ki-abstract-33 text-primary fs-4x" style="cursor: pointer;" onclick="takeSnapshot()">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </div>
                         </div>
+                        <input type="file" id="capture-image-data" name="image_file" style="display: none;">
+                        
                         <!--end::Input group-->
                         <!--begin::Actions-->
                         <div class="d-flex flex-center">
                             <button type="reset" data-kt-element="sms-cancel" class="btn btn-light me-3" onclick="turnOffCamera()">Cancel</button>
-                            <button type="submit" data-kt-element="sms-submit" class="btn btn-primary">
+                            <button type="submit" data-kt-element="sms-submit" class="btn btn-primary" id="submit-btn" disabled>
                                 <span class="indicator-label">Submit</span>
                                 <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
