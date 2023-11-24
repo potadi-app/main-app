@@ -100,18 +100,44 @@ function takeSnapshot() {
 
   canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
   canvas.style.display = "block";
+  retake.style.display = "block";
   video.style.display = "none";
   flipCamera.style.display = "none";
-  retake.style.display = "block";
+  captureButton.style.display = "none";
   submitButton.removeAttribute("disabled");
 
-  // Convert the snapshot to an image URL (base64 data URL).
   const imageDataURL = canvas.toDataURL("image/png"); // 'image/png' to 'image/jpeg' if needed.
-  const imageToShow = imageDataURL.split(",")[1];
 
-  inputImageData.value = imageToShow;
+  const imageBlob = dataURLtoBlob(imageDataURL);
+
+  const imageFile = new File([imageBlob], 'snapshot.png', { type: "image/png" });
+
+  // Setel file ke elemen input file
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(imageFile);
+  inputImageData.files = dataTransfer.files;
+
   captureButton.style.display = "none";
   turnOffCamera();
+}
+
+function dataURLtoBlob(dataURL) {
+  // Pisahkan metadata dan konten gambar
+  const [metadata, content] = dataURL.split(",");
+  // Mendapatkan tipe gambar dari metadata
+  const type = metadata.match(/data:([^;]+)/)[1];
+
+  // Mengonversi base64 ke blob
+  const blob = atob(content);
+  const arrayBuffer = new ArrayBuffer(blob.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+
+  for (let i = 0; i < blob.length; i++) {
+    uint8Array[i] = blob.charCodeAt(i);
+  }
+
+  // Membuat objek Blob dengan tipe gambar yang sesuai
+  return new Blob([arrayBuffer], { type: type });
 }
 
 function retakeSnapshot() {
@@ -184,9 +210,11 @@ var KTModalTwoFactorAuthentication = (function () {
         }),
         (l = FormValidation.formValidation(a, {
           fields: {
-            "image_file": {
-              validators: { notEmpty: { message: "Harap ambil gambar terlebih dahulu." } },
-            },
+            // image_file: {
+            //   validators: {
+            //     notEmpty: { message: "Harap ambil gambar terlebih dahulu." },
+            //   },
+            // },
           },
           plugins: {
             trigger: new FormValidation.plugins.Trigger(),
@@ -206,11 +234,11 @@ var KTModalTwoFactorAuthentication = (function () {
                     ? (r.setAttribute("data-kt-indicator", "on"),
                       (r.disabled = !0),
                       (document.getElementById("dismiss-modal").style.display =
-                      "none"),
+                        "none"),
                       document.getElementById("form-diagnose-capture").submit(),
                       setTimeout(function () {
                         r.removeAttribute("data-kt-indicator"),
-                          (r.disabled = !1);                          
+                          (r.disabled = !1);
                       }, 60000))
                     : Swal.fire({
                         text: "Sorry, looks like there are some errors detected, please try again.",
