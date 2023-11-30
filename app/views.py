@@ -33,7 +33,7 @@ def diagnosis(request):
                 image_data = image_file.read()
                 diagnosis = predict(image_data)
                 y_pred = np.argmax(list(diagnosis.values()))
-                conf_lvl = round(diagnosis[labels[y_pred]]*100, 2)             
+                conf_lvl = round(diagnosis[labels[y_pred]]*100, 2) 
 
                 user_email = request.session.get('email')              
                             
@@ -56,12 +56,15 @@ def diagnosis(request):
                         'data': {
                             'filename': basename(filename),
                             'label': labels[y_pred],
-                            'confident': conf_lvl,
+                            'confident': {
+                                'healthy': round(diagnosis['Healthy']*100, 2),
+                                'early_blight': round(diagnosis['Early Blight']*100, 2),
+                                'late_blight': round(diagnosis['Late Blight']*100, 2),
+                            },
                             'dateTaken': dateTaken,
                             'image_file': image_url,
                         }
                     }
-                    
                     data = get_user_data(request)
                     return render(request, 'diagnosis/diagnosis.html', {'data': data, 'result': result})
                 except Exception as e:
