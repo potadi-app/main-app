@@ -76,40 +76,41 @@
             <!--end::Col-->
         </div>
         <!--end::Row-->
+        <!--begin::Info-->
+        <div class="d-flex align-items-end flex-stack mt-5 mb-2">
+            <!--begin::Title-->
+            <div class="text-start">
+                <span class="fw-bold text-gray-800 cursor-pointer text-hover-primary fs-4 d-block">{{ result.data.filename }}</span>
+                {% load tz %}
+                <span class="text-gray-400 mt-1 fw-bold fs-6">Pengambilan: {{ result.data.dateTaken|date:"j F Y - H:i:s" }}</span>
+            </div>
+            <!--end::Title-->
+            <!--begin::Total-->
+            {% comment %} <span class="text-gray-600 text-end fw-bold fs-6">$2,630</span> {% endcomment %}
+            <!--end::Total-->
+        </div>
+
+        <div class="d-flex flex-stack pt-0">
+            <!--begin::Link-->
+
+            {% with label=result.data.label %}
+                {% if label == 'Late Blight' %}
+                    <span class="btn btn-sm btn-danger flex-shrink-0 me-2">{{ label }}</span>
+                {% elif label == 'Early Blight' %}
+                    <span class="btn btn-sm btn-warning flex-shrink-0 me-2">{{ label }}</span>
+                {% else %}        
+                    <span class="btn btn-sm btn-success flex-shrink-0 me-2">{{ label }}</span>
+                {% endif %}
+            {% endwith %}
+
+            <!--end::Link-->
+            <!--begin::Link-->
+            <a href="{% url 'diagnosis' %}" class="btn btn-sm btn-light flex-shrink-0" href="#!">Diagnosa Ulang</a>
+            <!--end::Link-->
+        </div>
+        <!--end::Info-->
+
     </div>
     <!--end::Body-->
 </div>
 
-<!--begin::Info-->
-<div class="d-flex align-items-end flex-stack my-2">
-    <!--begin::Title-->
-    <div class="text-start">
-        <span class="fw-bold text-gray-800 cursor-pointer text-hover-primary fs-4 d-block">{{ result.data.filename }}</span>
-        {% load tz %}
-        <span class="text-gray-400 mt-1 fw-bold fs-6">Pengambilan: {{ result.data.dateTaken|date:"j F Y - H:i:s" }}</span>
-    </div>
-    <!--end::Title-->
-    <!--begin::Total-->
-    {% comment %} <span class="text-gray-600 text-end fw-bold fs-6">$2,630</span> {% endcomment %}
-    <!--end::Total-->
-</div>
-<!--end::Info-->
-
-<div class="d-flex flex-stack pt-0">
-    <!--begin::Link-->
-
-    {% with label=result.data.label %}
-        {% if label == 'Late Blight' %}
-            <span class="btn btn-sm btn-danger flex-shrink-0 me-2">{{ label }}</span>
-        {% elif label == 'Early Blight' %}
-            <span class="btn btn-sm btn-warning flex-shrink-0 me-2">{{ label }}</span>
-        {% else %}        
-            <span class="btn btn-sm btn-success flex-shrink-0 me-2">{{ label }}</span>
-        {% endif %}
-    {% endwith %}
-
-    <!--end::Link-->
-    <!--begin::Link-->
-    <a href="{% url 'diagnosis' %}" class="btn btn-sm btn-light flex-shrink-0" href="#!">Diagnosa Ulang</a>
-    <!--end::Link-->
-</div>
