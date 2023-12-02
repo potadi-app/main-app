@@ -31,9 +31,9 @@ def get_history(request):
     
     return history
 
-def detail_diagnose(item_id):
+def detail_diagnose(item_id, email):
     try:
-        history = ImageHistory.objects.get(id=item_id)
+        history = ImageHistory.objects.get(user_email=email, id=item_id)
         detail = {
         'id': history.id,
         'label': history.label,

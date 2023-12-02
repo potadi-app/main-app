@@ -78,7 +78,8 @@ def diagnosis(request):
 @login_required
 def history(request, id=None):
     if id:
-        detail = detail_diagnose(item_id=id)
+        email = request.session.get('email')
+        detail = detail_diagnose(email=email, item_id=id)
         return JsonResponse({'status': 200, 'data': detail})
     else:
         data = get_user_data(request)
