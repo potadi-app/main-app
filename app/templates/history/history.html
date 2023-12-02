@@ -113,12 +113,12 @@
                                             data-kt-check-target="#kt_table_users .form-check-input" value="1" />
                                     </div> -->
                                 </th>
-                                <th class="min-w-125px">Item</th>
+                                <th class="min-w-125px">Item <span class="fs-8">( click to detail )</span></th>
                                 <th class="min-w-125px">Tanggal Upload</th>
                                 <th class="min-w-125px">Presentase</th>
                                 <th class="min-w-125px">Status</th>
                                 
-                                <th class="text-end min-w-100px">Actions</th>
+                                <th class="text-center min-w-100px">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-semibold">
@@ -142,12 +142,11 @@
                                     <!--end::Avatar-->
                                     <!--begin::User details-->
                                     <div class="d-flex flex-column">
-                                        <a class="text-gray-800 text-hover-primary mb-1">{{ item.filename }}</a>                                        
+                                        <a href="#" class="text-gray-800 text-hover-pimary mb-1 modal-diagnose-link" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan" onclick="viewDetail('{{ item.id }}')">{{ item.filename }}</a>
                                     </div>
                                     <!--begin::User details-->
                                 </td>
                                 <td>
-                                    {% load tz %}
                                     {{ item.upload_date|date:"d-m-Y - H:i:s" }}
                                 </td>
                                 <td>
@@ -165,7 +164,7 @@
                                     {% endwith %}
                                 </td>
                                 
-                                <td class="text-end">
+                                <td class="text-center">
                                     <a href="#"
                                         class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
@@ -175,6 +174,8 @@
                                         data-kt-menu="true">                                        
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
+                                            <a href="#!!" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan"
+                                                onclick="viewDetail('{{ item.id }}')">Detail</a>
                                             <a href="#!!" class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row">Hapus</a>
                                         </div>
@@ -189,15 +190,122 @@
                     <!--end::Table-->
                 </div>
                 <!--end::Card body-->
+
+                <!--begin::Modal - Detail Diagnose-->
+                <div class="modal fade" id="kt_modal_upgrade_plan" tabindex="-1" aria-hidden="true">
+                    <!--begin::Modal dialog-->
+                    <div class="modal-dialog modal-lg">
+                        <!--begin::Modal content-->
+                        <div class="modal-content rounded">
+                            <!--begin::Modal header-->
+                            <div class="modal-header justify-content-end border-0 pb-0">
+                                <!--begin::Close-->
+                                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                    <i class="ki-duotone ki-cross fs-1">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                            <!--end::Modal header-->
+                            <!--begin::Modal body-->
+                            <div class="modal-body justify-content-center pt-0 pb-15 px-5 px-xl-20">
+                                <div class="col-lg-12">
+                                    <!--begin::Summary-->
+                                    <div class="card card-flush border-0 h-lg-100">
+                                        <!--begin::Card header-->
+                                        <div class="card-header mt-6">
+                                            <!--begin::Card title-->
+                                            <div class="card-title flex-column">
+                                                <h3 id="filename" class="fw-bold mb-1"></h3>
+                                                <div id="upload_date" class="fs-6 fw-semibold text-gray-400"></div>
+                                            </div>
+                                            <!--end::Card title-->                                    
+                                        </div>
+                                        <!--end::Card header-->
+                                        <!--begin::Card body-->
+                                        <div class="card-body p-9 pt-5">
+                                            <!--begin::Wrapper-->
+                                            <div class="d-flex flex-wrap">
+                                                <!--begin::Chart-->
+                                                <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
+                                                    <div class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
+                                                        {% comment %} <span class="fs-2qx fw-bold">237</span> {% endcomment %}
+                                                        <span id="label" class="fs-1 fw-bold text-success text-center"></span>
+                                                    </div>
+                                                    <canvas id="project_overview_chart"></canvas>
+                                                </div>
+                                                <!--end::Chart-->
+                                                <!--begin::Labels-->
+                                                <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
+                                                    <!--begin::Label-->
+                                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
+                                                        <div class="bullet bg-success me-3"></div>
+                                                        <div class="text-gray-400">Healthy</div>
+                                                        <div id="conf-healthy" class="ms-auto fw-bold text-gray-700"></div>
+                                                    </div>
+                                                    <!--end::Label-->
+                                                    <!--begin::Label-->
+                                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
+                                                        <div class="bullet bg-warning me-3"></div>
+                                                        <div class="text-gray-400">Early Blight</div>
+                                                        <div id="conf-early" class="ms-auto fw-bold text-gray-700"></div>
+                                                    </div>
+                                                    <!--end::Label-->
+                                                    <!--begin::Label-->
+                                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
+                                                        <div class="bullet bg-danger me-3"></div>
+                                                        <div class="text-gray-400">Late Blight</div>
+                                                        <div id="conf-late" class="ms-auto fw-bold text-gray-700"></div>
+                                                    </div>
+                                                    <!--end::Label-->                                                  
+                                                </div>
+                                                <!--end::Labels-->
+                                            </div>
+                                            <!--end::Wrapper-->
+                                            <!--begin::Notice-->
+                                            <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6">
+                                                <!--begin::Wrapper-->
+                                                <div class="d-flex flex-stack flex-grow-1">
+                                                    <!--begin::Content-->
+                                                    <div class="fw-semibold">
+                                                        <div class="fs-6 text-gray-700">
+                                                            <span class="badge badge-light-danger fs-5">Notes:</span>
+                                                            Hasil bisa saja tidak akurat. Periksa kembali kondisi yang sebenarnya!
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Content-->
+                                                </div>
+                                                <!--end::Wrapper-->
+                                            </div>
+                                            <!--end::Notice-->
+                                        </div>
+                                        <!--end::Card body-->
+                                    </div>
+                                    <!--end::Summary-->
+                                </div>
+                            </div>
+                            <!--end::Modal body-->
+                        </div>
+                        <!--end::Modal content-->
+                    </div>
+                    <!--end::Modal dialog-->
+                </div>
+                <!--end::Modal - Detail Diagnose-->
+
             
             </div>
             <!--end::Card-->
 
+        
         </div>
+        
     </div>
 </div>
 
 {% endblock %}
 {% block custom_js %}
 <script src="{% static 'assets/js/custom/apps/user-management/users/list/table.js' %}"></script>
+<script src="{% static 'assets/js/custom/apps/projects/project/project.js' %}"></script>
 {% endblock %}

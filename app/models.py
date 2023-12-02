@@ -34,6 +34,7 @@ class ImageHistory(models.Model):
     upload_date = models.DateTimeField(auto_now_add=True)
     user_email = models.CharField(max_length=255)
     image_data = models.ImageField(upload_to=user_image_path)
+    detail = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.user_email

@@ -21,7 +21,7 @@ def predict(file):
         
         probs = model.predict(img)[0]
         
-        output = {'Early Blight': probs[0], 'Healthy': probs[1], 'Late Blight': probs[2]}
+        output = {'Early Blight': round(probs[0]*100, 2), 'Healthy': round(probs[1]*100, 2), 'Late Blight': round(probs[2]*100, 2)}
         return output
     except Exception as e:
         return {'error': str(e), 'message': 'An error occurred. Please check the input and try again.'}

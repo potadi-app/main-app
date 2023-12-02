@@ -1,5 +1,6 @@
 from app.models import Users, ImageHistory
 from os.path import basename
+import json
 
 def get_user_data(request):
     email = request.session.get('email')
@@ -24,10 +25,29 @@ def get_history(request):
             'confident': historie.confident,
             'filename': basename(historie.image_data.name),
             'image_data': historie.image_data.url,
-            'upload_date': historie.upload_date
+            'upload_date': historie.upload_date,
+            'detail': historie.detail
         })
     
     return history
+
+def detail_diagnose(item_id):
+    try:
+        history = ImageHistory.objects.get(id=item_id)
+        detail = {
+        'id': history.id,
+        'label': history.label,
+        'confident': history.confident,
+        'filename': basename(history.image_data.name),
+        'image_data': history.image_data.url,
+        'upload_date': history.upload_date,
+        'detail': json.loads(history.detail)
+        }
+        return detail
+    except ImageHistory.DoesNotExist:
+        return None
+    
+   
 
 def get_total_history(request):
     email = request.session.get('email')

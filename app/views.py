@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from .helpers.decorator import login_required
-from .helpers.utils import get_user_data, get_history, get_total_history
+from .helpers.utils import get_user_data, get_history, get_total_history, detail_diagnose
 from app.models import Users, ImageHistory
 from app.ml.diagnosis import predict
 from os.path import basename
@@ -33,7 +33,7 @@ def diagnosis(request):
                 image_data = image_file.read()
                 diagnosis = predict(image_data)
                 y_pred = np.argmax(list(diagnosis.values()))
-                conf_lvl = round(diagnosis[labels[y_pred]]*100, 2) 
+                conf_lvl = diagnosis[labels[y_pred]]
 
                 user_email = request.session.get('email')              
                             
@@ -41,7 +41,8 @@ def diagnosis(request):
                     label=labels[y_pred],
                     confident=conf_lvl,
                     image_data=image_file,
-                    user_email=user_email
+                    user_email=user_email,
+                    detail=json.dumps(diagnosis)
                 )
                 image_history.save()                
                 
@@ -57,9 +58,9 @@ def diagnosis(request):
                             'filename': basename(filename),
                             'label': labels[y_pred],
                             'confident': {
-                                'healthy': round(diagnosis['Healthy']*100, 2),
-                                'early_blight': round(diagnosis['Early Blight']*100, 2),
-                                'late_blight': round(diagnosis['Late Blight']*100, 2),
+                                'healthy': diagnosis['Healthy'],
+                                'early_blight': diagnosis['Early Blight'],
+                                'late_blight': diagnosis['Late Blight'],
                             },
                             'dateTaken': dateTaken,
                             'image_file': image_url,
@@ -75,10 +76,14 @@ def diagnosis(request):
                 return JsonResponse({'status': 'error', 'message': str(e)})
             
 @login_required
-def history(request):
-    data = get_user_data(request)
-    history = get_history(request)
-    return render(request, 'history/history.html', {'data': data, 'history': history})
+def history(request, id=None):
+    if id:
+        detail = detail_diagnose(item_id=id)
+        return JsonResponse({'status': 200, 'data': detail})
+    else:
+        data = get_user_data(request)
+        history = get_history(request)
+        return render(request, 'history/history.html', {'data': data, 'history': history})
 
 @login_required
 def delete_history(request, id):
