@@ -132,17 +132,35 @@
                                 <td class="d-flex align-items-center">
                                     <!--begin:: Avatar -->
                                     <div class="symbol symbol-50px overflow-hidden me-5">
-                                        <a>
+                                        <a class="overlay image-overlay" style="cursor: pointer;" data-image="{{ item.image_data }}" data-fslightbox="lightbox-hot-sales">
                                             <div class="symbol-label">
                                                 <img src="{{ item.image_data }}" alt="item"
                                                     class="w-100" />
+                                                <!--begin::Action-->
+                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
+                                                    <i class="ki-duotone ki-eye fs-3x text-white">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                        <span class="path3"></span>
+                                                    </i>
+                                                </div>
+                                                <!--end::Action-->
                                             </div>
                                         </a>
+                                        <script>
+                                            var overlayBtns = document.querySelectorAll('.image-overlay');
+                                            overlayBtns.forEach(function (btn) {
+                                                btn.addEventListener('click', function () {
+                                                    var image = btn.getAttribute('data-image');
+                                                    btn.setAttribute('href', image);                                                    
+                                                });
+                                            });
+                                        </script>
                                     </div>
                                     <!--end::Avatar-->
                                     <!--begin::User details-->
                                     <div class="d-flex flex-column">
-                                        <a href="#" class="text-gray-800 text-hover-pimary mb-1 modal-diagnose-link" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan" onclick="viewDetail('{{ item.id }}')">{{ item.filename }}</a>
+                                        <a style="cursor: pointer;" class="text-gray-800 text-hover-pimary mb-1" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan" onclick="viewDetail('{{ item.id }}')">{{ item.filename }}</a>
                                     </div>
                                     <!--begin::User details-->
                                 </td>
