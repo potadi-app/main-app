@@ -52,13 +52,6 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_FORMS = {
-'signup': 'app.adapter.MySocialAccountSignupForm',
-}
-
-ACCOUNT_SIGNUP = False
-SOCIALACCOUNT_AUTO_SIGNUP = False
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -154,9 +147,19 @@ CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
 
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False       # Defaults to True
+ACCOUNT_EMAIL_REQUIRED = True           # Defaults to False
+SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_ADAPTER = "app.adapter.MyLoginAccountAdapter"
+SOCIALACCOUNT_ADAPTER = 'app.adapter.MySocialAccountAdapter'
+LOGIN_REDIRECT_URL = 'login_success'
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 
-LOGIN_REDIRECT_URL = 'login_success'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -169,10 +172,3 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
-SOCIALACCOUNT_QUERY_EMAIL = False
-
-SOCIALACCOUNT_LOGIN_ON_GET=True
-
-# SOCIALACCOUNT_SIGNUP_FORM_CLASS = 'app.adapter.MySocialAccountSignupForm'
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'
