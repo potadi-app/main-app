@@ -1,6 +1,6 @@
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-from allauth.core.exceptions import ImmediateHttpResponse
+from allauth.exceptions import ImmediateHttpResponse
 from allauth.socialaccount.signals import pre_social_login
 from allauth.account.utils import perform_login
 from allauth.utils import get_user_model
@@ -20,7 +20,7 @@ class MyLoginAccountAdapter(DefaultAccountAdapter):
     def get_login_redirect_url(self, request):
         """ 
         """
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return settings.LOGIN_REDIRECT_URL.format(
                 id=request.user.id)
         else:
