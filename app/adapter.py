@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.dispatch import receiver
 from django.shortcuts import redirect
 from django.conf import settings
+import json
 
 
 class MyLoginAccountAdapter(DefaultAccountAdapter):
