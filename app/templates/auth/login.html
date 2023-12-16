@@ -1,6 +1,7 @@
 {% extends 'auth/base.html' %}
 {% block title %}Sign in{% endblock %}
 {% load static %}
+
 {% block form %}
 
 <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="{% url 'home' %}" action="{% url 'login' %}">
