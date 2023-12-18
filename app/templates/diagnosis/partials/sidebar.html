@@ -1,0 +1,31 @@
+{% load static %}
+<div class="flex-row-auto w-xl-450px">
+    <!--begin::Pos order-->
+    <div class="card shadow-lg bg-body" id="kt_pos_form">
+        <!--begin::Header-->
+        <div class="card-header pt-5">
+            <h3 class="card-title fw-bold text-gray-800 fs-2qx">Mulai Diagnosa</h3>                            
+        </div>
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body pt-0">
+           
+            <!--begin::Description-->
+            <p class="text-gray-400 fs-4 fw-semibold py-7">Klik Tombol dibawah -> Pilih Mode dan
+            <br />Mulai Diagnosa.</p>
+            <!--end::Description-->
+            <!--begin::Action-->
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-success fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_two_factor_authentication">Mulai</a>
+            </div>
+            <!--end::Action-->
+
+            <div class="text-center pb-15 px-5">
+                <img src="{% static 'assets/media/illustrations/sigma-1/9-dark.png' %}" alt="" class="mw-100 h-200px h-sm-325px" />
+            </div>
+
+        </div>
+        <!--end: Card Body-->
+    </div>
+    <!--end::Pos order-->
+</div>

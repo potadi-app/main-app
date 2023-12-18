@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.conf import settings
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.decorators.http import require_POST
 from .helpers.decorator import login_required
-from .helpers.utils import get_user_data, get_history, get_total_history, detail_diagnose
+from .helpers.utils import get_user_data, get_history, get_total_history, detail_diagnose, serve_images
 from app.models import Users, ImageHistory
 from app.ml.diagnosis import predict
 from os.path import basename
 import numpy as np
 import json
+import os
 
 @login_required
 def home(request):
@@ -20,7 +22,8 @@ def diagnosis(request):
 
     if request.method == 'GET':
         data = get_user_data(request)
-        return render(request, 'diagnosis/diagnosis.html', {'data': data})
+        healthy_images, early_images, late_images = serve_images()
+        return render(request, 'diagnosis/diagnosis.html', {'data': data, 'healthy_images': healthy_images, 'early_images': early_images, 'late_images': late_images})
     
     elif request.method == 'POST':
         image_file = request.FILES.get('image_file')
@@ -120,3 +123,32 @@ def delete_sel_history(request):
     except Exception as e:
         print(e)
         return JsonResponse({'status': 'error', 'message': 'Error while deleting history'})
+    
+from django.http import FileResponse
+
+# @login_required
+def download_sample_img(request, filename):
+    filename = filename.lower()
+    if 'healthy' in filename:
+        DIR = 'app/static/assets/media/sample_diseases/healthy'
+    elif 'early' in filename:
+        DIR = 'app/static/assets/media/sample_diseases/early_blight'
+    elif 'late' in filename:
+        DIR = 'app/static/assets/media/sample_diseases/late_blight'
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Error while downloading image'})
+    
+    try:
+        filepath = os.path.join(settings.BASE_DIR, DIR, filename)
+        
+        # Buka file dan baca isinya
+        with open(filepath, 'rb') as f:
+            content = f.read()
+
+            response = HttpResponse(content, content_type='image/jpeg')
+            response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(filepath)
+
+            return response
+    except Exception as e:
+        print(e)
+        return JsonResponse({'status': 'error', 'message': 'Error while downloading image'})

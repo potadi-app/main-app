@@ -5,43 +5,52 @@
 {% block content %}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Post-->
+        
+    {% if result %}
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <!--begin::Card-->
             <div class="card shadow-lg">
                 <!--begin::Card body-->
                 <div class="card-body">
-                    {% if result %}
-
                     <!--begin::Result Diagnosis-->
                     {% include "diagnosis/partials/result-diagnose.html" %}
-				    <!--end::Result Diagnosis-->
-                    
-                    {% else %}
-                    
-                    <!--begin::Start Diagnosis-->
-                    {% include "diagnosis/partials/start-diagnose.html" %}                   
-				    <!--end::Start Diagnosis-->
-                   
-                    {% endif %}
-
+                    <!--end::Result Diagnosis-->                        
                 </div>
                 <!--end::Card body-->
             </div>
-            <!--end::Card-->
         </div>
-        <!--end::Container-->
     </div>
+                        
+    {% else %}
+
+    <!--begin::Toolbar-->
+    {% include "diagnosis/partials/toolbar.html" %}                  
+    <!--end::Toolbar-->
+
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <div id="kt_content_container" class="container-xxl">
+            <div class="d-flex flex-column flex-xl-row">
+                
+                <!--begin::Sample-->
+                <div class="d-flex flex-row-fluid me-xl-9 mb-10 mb-xl-0">
+                    {% include "diagnosis/partials/samples.html" %}                  
+                </div>
+                <!--end::Sample-->
+
+                <!--begin::Sidebar-->
+                {% include "diagnosis/partials/sidebar.html" %}
+                <!--end::Sidebar-->
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 <!--end::Post-->
+
 {% endblock content %}
 
 {% block modals %}
 {% include "diagnosis/partials/modals.html" %}
 {% endblock modals %}
-
-{% block custom_js %}
-<script src="{% static 'assets/js/custom/utilities/modals/two-factor-authentication.js' %}"></script>
-{% endblock custom_js %}

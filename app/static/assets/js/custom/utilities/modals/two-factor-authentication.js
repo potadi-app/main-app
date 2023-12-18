@@ -181,6 +181,9 @@ var KTModalTwoFactorAuthentication = (function () {
     u,
     m,
     f,
+    mode,
+    upload,
+    capture,
     p = function () {
       o.classList.remove("d-none"),
         i.classList.add("d-none"),
@@ -200,14 +203,29 @@ var KTModalTwoFactorAuthentication = (function () {
         (c = e.querySelector('[data-kt-element="apps-form"]')),
         (u = e.querySelector('[data-kt-element="apps-submit"]')),
         (m = e.querySelector('[data-kt-element="apps-cancel"]')),
-        n.addEventListener("click", function (e) {
-          e.preventDefault();
-          var t = o.querySelector('[name="auth_option"]:checked');
-          o.classList.add("d-none"),
-            "sms" == t.value
-              ? (i.classList.remove("d-none"), turnOnCamera())
-              : d.classList.remove("d-none");
+        (upload = e.querySelector('[name="auth_option"][value="apps"]')),
+        (capture = e.querySelector('[name="auth_option"][value="sms"]')),
+        upload.addEventListener("click", function (e) {
+          e.preventDefault(),
+            o.classList.add("d-none"),
+            d.classList.remove("d-none"),
+            turnOffCamera();
         }),
+        capture.addEventListener("click", function (e) {
+          e.preventDefault(),
+            o.classList.add("d-none"),
+            i.classList.remove("d-none"),
+            turnOnCamera();
+        }),
+        
+        // n.addEventListener("click", function (e) {
+        //   e.preventDefault();
+        //   var t = o.querySelector('[name="auth_option"]:checked');
+        //   o.classList.add("d-none"),
+        //     "sms" == t.value
+        //       ? (i.classList.remove("d-none"), turnOnCamera())
+        //       : d.classList.remove("d-none");
+        // }),
         (l = FormValidation.formValidation(a, {
           fields: {
             // image_file: {
@@ -224,7 +242,7 @@ var KTModalTwoFactorAuthentication = (function () {
               eleValidClass: "",
             }),
           },
-        })),
+        })),       
         r.addEventListener("click", function (e) {
           e.preventDefault(),
             l &&

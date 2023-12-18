@@ -1,4 +1,3 @@
-
 {% load static %}
 <!--begin::Modal - Diagnosa-->
 <div class="modal fade" id="kt_modal_two_factor_authentication" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
@@ -31,7 +30,7 @@
                     <!--begin::Wrapper-->
                     <div class="pb-10">
                         <!--begin::Option-->
-                        <input type="radio" class="btn-check" name="auth_option" value="apps" checked="checked" id="kt_modal_two_factor_authentication_option_1" />
+                        <input type="radio" class="btn-check" name="auth_option" value="apps" id="kt_modal_two_factor_authentication_option_1" />
                         <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-5" for="kt_modal_two_factor_authentication_option_1">
                             <i class="ki-duotone ki-folder-up fs-4x me-4">
                                 <span class="path1"></span>
@@ -60,7 +59,7 @@
                     </div>
                     <!--end::Options-->
                     <!--begin::Action-->
-                    <button class="btn btn-primary w-100" data-kt-element="options-select">Lanjut</button>
+                    {% comment %} <button class="btn btn-primary w-100" data-kt-element="options-select">Lanjut</button> {% endcomment %}
                     <!--end::Action-->
                 </div>
                 <!--end::Options-->

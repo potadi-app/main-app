@@ -1,0 +1,12 @@
+{% load static %}
+<div class="fab-container">
+    <div class="fab shadow">
+        <div class="fab-content cursor-pointer" data-bs-toggle="modal" data-bs-target="#kt_modal_two_factor_authentication">
+            <span class="material-icons">rocket_launch</span><br>
+        </div>
+    </div>
+</div>
+
+{% block modals %}
+{% include "diagnosis/partials/modals.html" %}
+{% endblock modals %}

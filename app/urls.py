@@ -8,6 +8,7 @@ urlpatterns = [
     path('detail-history/<int:id>', views.history, name='detail_history'),
     path('del-history/<int:id>', views.delete_history, name='delete_history'),
     path('del-sel-history/', views.delete_sel_history, name='delete_sel_history'),
+    path('download-sample-img/<str:filename>', views.download_sample_img, name='download_sample_img'),
         
     path('auth/login/', authentication.login, name='login'),
     path('register/', authentication.register, name='register'),
