@@ -128,12 +128,11 @@ from django.http import FileResponse
 
 # @login_required
 def download_sample_img(request, filename):
-    filename = filename.lower()
-    if 'healthy' in filename:
+    if 'healthy' in filename.lower():
         DIR = 'app/static/assets/media/sample_diseases/healthy'
-    elif 'early' in filename:
+    elif 'early' in filename.lower():
         DIR = 'app/static/assets/media/sample_diseases/early_blight'
-    elif 'late' in filename:
+    elif 'late' in filename.lower():
         DIR = 'app/static/assets/media/sample_diseases/late_blight'
     else:
         return JsonResponse({'status': 'error', 'message': 'Error while downloading image'})
