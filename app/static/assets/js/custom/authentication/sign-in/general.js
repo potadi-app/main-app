@@ -47,7 +47,7 @@ var KTSigninGeneral = (function () {
                           new FormData(t),
                             {
                               headers: {
-                                'X-CSRFToken': '{{ csrf_token }}'
+                                'X-CSRFToken': document.querySelector("[name=csrfmiddlewaretoken]").value
                               }
                             }
                         )
