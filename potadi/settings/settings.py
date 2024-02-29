@@ -64,6 +64,17 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+CACHES = {
+   'default': {
+      'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+      'LOCATION': '127.0.0.1:11211',
+   }
+}
+
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
 
 ROOT_URLCONF = 'potadi.urls'
 
