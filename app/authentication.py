@@ -8,7 +8,7 @@ from .models import Users
 from allauth.socialaccount.models import SocialAccount
 from django.views.decorators.cache import cache_page
 
-@cache_page(604800)
+# @cache_page(604800)
 @cek_login
 def login(request):
     if request.method == 'GET':
