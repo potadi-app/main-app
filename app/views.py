@@ -7,13 +7,21 @@ from .helpers.utils import get_user_data, get_history, get_total_history, detail
 from app.models import Users, ImageHistory
 from app.ml.diagnosis import predict
 from os.path import basename
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 import numpy as np
 import json
 import os
 
+@cache_page(60 * 60)
 @login_required
 def home(request):
-    data = get_user_data(request)
+    data = cache.get('user_data')
+
+    if data is None:
+        data = get_user_data(request)
+        cache.set('user_data', data, 60 * 60)        
+    
     return render(request, 'dashboard/index.html', {'data': data})
 
 @login_required
@@ -21,8 +29,29 @@ def diagnosis(request):
     labels=['Early Blight', 'Healthy', 'Late Blight']
 
     if request.method == 'GET':
-        data = get_user_data(request)
-        healthy_images, early_images, late_images = serve_images()
+        data = cache.get('user_data')
+        
+        if data is None:
+            data = get_user_data(request)
+            cache.set('user_data', data, 60 * 60)        
+
+        images_data = cache.get('images_data')
+
+        if images_data is None:        
+            healthy_images, early_images, late_images = serve_images()
+
+            images_data = {
+                'healthy_images': healthy_images,
+                'early_images': early_images,
+                'late_images': late_images
+            }
+            cache.set('images_data', images_data, 60 * 60)
+
+        else:
+            healthy_images = images_data['healthy_images']
+            early_images = images_data['early_images']
+            late_images = images_data['late_images']
+            
         return render(request, 'diagnosis/diagnosis.html', {'data': data, 'healthy_images': healthy_images, 'early_images': early_images, 'late_images': late_images})
     
     elif request.method == 'POST':
@@ -40,40 +69,35 @@ def diagnosis(request):
 
                 user_email = request.session.get('email')              
                             
-                image_history = ImageHistory(
+                image_history = ImageHistory.objects.create(
                     label=labels[y_pred],
                     confident=conf_lvl,
                     image_data=image_file,
                     user_email=user_email,
                     detail=json.dumps(diagnosis)
                 )
-                image_history.save()                
-                
-                try:
-                    get_image = ImageHistory.objects.get(id=image_history.id)
-                    filename = get_image.image_data.name
-                    image_url = get_image.image_data.url
-                    dateTaken = get_image.upload_date
-                    result = {
-                        'status': 200,
-                        'message': 'Diagnosis success',
-                        'data': {
-                            'filename': basename(filename),
-                            'label': labels[y_pred],
-                            'confident': {
-                                'healthy': diagnosis['Healthy'],
-                                'early_blight': diagnosis['Early Blight'],
-                                'late_blight': diagnosis['Late Blight'],
-                            },
-                            'dateTaken': dateTaken,
-                            'image_file': image_url,
-                        }
+                                
+                filename = image_history.image_data.name
+                image_url = image_history.image_data.url
+                dateTaken = image_history.upload_date
+                result = {
+                    'status': 200,
+                    'message': 'Diagnosis success',
+                    'data': {
+                        'filename': basename(filename),
+                        'label': labels[y_pred],
+                        'confident': {
+                            'healthy': diagnosis['Healthy'],
+                            'early_blight': diagnosis['Early Blight'],
+                            'late_blight': diagnosis['Late Blight'],
+                        },
+                        'dateTaken': dateTaken,
+                        'image_file': image_url,
                     }
-                    data = get_user_data(request)
-                    return render(request, 'diagnosis/diagnosis.html', {'data': data, 'result': result})
-                except Exception as e:
-                    print(e)
-                    return JsonResponse({'status': 'error', 'message': str(e)})
+                }
+                data = get_user_data(request)
+                return render(request, 'diagnosis/diagnosis.html', {'data': data, 'result': result})
+                
             except Exception as e:
                 print(e)
                 return JsonResponse({'status': 'error', 'message': str(e)})

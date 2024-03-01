@@ -7,12 +7,15 @@ from .helpers.decorator import cek_login
 from .models import Users
 from allauth.socialaccount.models import SocialAccount
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
-# @cache_page(604800)
-@cek_login
+@cache_page(60 * 60)
 def login(request):
     if request.method == 'GET':
-        return render(request, 'auth/login.html')
+        if 'email' in request.session:
+            return redirect('home')
+        else:
+            return render(request, 'auth/login.html')
     
     elif request.method == 'POST':
         email = request.POST.get('email')
@@ -28,10 +31,16 @@ def login(request):
         
         if not check_password(password, user.password):
             return JsonResponse({'success': False, 'message': 'Password salah!'})
+
+        data = {
+            'username': user.username,
+            'email': user.email,
+            'profile_picture': user.avatar.url
+        }
         
-        request.session['email'] = user.email
-        request.session['username'] = user.username
-        request.session['profile_picture'] = user.avatar.url
+        request.session.update(data)
+
+        cache.set('user_data', data, 60 * 60)
 
         return JsonResponse({'success': True, 'message': f'Selamat Datang {user.username}!'})
     
