@@ -40,7 +40,9 @@ def login(request):
         
         request.session.update(data)
 
-        cache.set('user_data', data, 60 * 60)
+        cache_key = f'user_data_{user.email}'
+
+        cache.set(cache_key, data, 60 * 60)
 
         return JsonResponse({'success': True, 'message': f'Selamat Datang {user.username}!'})
     

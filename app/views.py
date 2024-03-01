@@ -16,7 +16,9 @@ import os
 @cache_page(60 * 60)
 @login_required
 def home(request):
-    data = cache.get('user_data')
+    email = request.session.get('email')
+    cache_key = f'user_data{email}'
+    data = cache.get(cache_key)
 
     if data is None:
         data = get_user_data(request)
@@ -29,7 +31,9 @@ def diagnosis(request):
     labels=['Early Blight', 'Healthy', 'Late Blight']
 
     if request.method == 'GET':
-        data = cache.get('user_data')
+        email = request.session.get('email')
+        cache_key = f'user_data{email}'
+        data = cache.get(cache_key)
         
         if data is None:
             data = get_user_data(request)
@@ -109,7 +113,9 @@ def history(request, id=None):
         detail = detail_diagnose(email=email, item_id=id)
         return JsonResponse({'status': 200, 'data': detail})
     else:
-        data = cache.get('user_data')
+        email = request.session.get('email')
+        cache_key = f'user_data{email}'
+        data = cache.get(cache_key)
 
         if data is None:
             data = get_user_data(request)
