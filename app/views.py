@@ -5,7 +5,6 @@ from django.views.decorators.http import require_POST
 from .helpers.decorator import login_required
 from .helpers.utils import get_user_data, get_history, get_total_history, detail_diagnose, serve_images
 from app.models import Users, ImageHistory
-from app.ml.diagnosis import predict
 from os.path import basename
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
@@ -65,6 +64,7 @@ def diagnosis(request):
             return JsonResponse({'status': 'error', 'message': 'No image file found'})
         else:
             try:
+                from app.ml.diagnosis import predict
                 
                 image_data = image_file.read()
                 diagnosis = predict(image_data)
