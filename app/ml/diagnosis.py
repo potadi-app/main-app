@@ -11,13 +11,13 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-model_cache_key = 'diagnosis_model'
-if not cache.get(model_cache_key):
-    model = load_model(f'{BASE_DIR}/app/ml/model/model_MobileNet_imagenet_New_224.h5')
-    model.load_weights(f'{BASE_DIR}/app/ml/model/weights_MobileNet_imagenet_New_224.h5')
-    cache.set(model_cache_key, model)
-
 def predict(file):
+    model_cache_key = 'diagnosis_model'
+    if not cache.get(model_cache_key):
+        model = load_model(f'{BASE_DIR}/app/ml/model/model_MobileNet_imagenet_New_224.h5')
+        model.load_weights(f'{BASE_DIR}/app/ml/model/weights_MobileNet_imagenet_New_224.h5')
+        cache.set(model_cache_key, model)
+        
     try:
         img = Image.open(BytesIO(file)).convert("RGB")
         img = img.resize((224, 224))
