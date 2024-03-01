@@ -13,7 +13,9 @@ def allowed_file(filename):
 
 def predict(file):
     model_cache_key = 'diagnosis_model'
-    if not cache.get(model_cache_key):
+    model = cache.get(model_cache_key)
+
+    if model is None:
         model = load_model(f'{BASE_DIR}/app/ml/model/model_MobileNet_imagenet_New_224.h5')
         model.load_weights(f'{BASE_DIR}/app/ml/model/weights_MobileNet_imagenet_New_224.h5')
         cache.set(model_cache_key, model)
