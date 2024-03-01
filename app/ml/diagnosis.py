@@ -3,14 +3,19 @@ from PIL import Image
 from io import BytesIO
 from potadi.settings.settings import BASE_DIR
 from keras.models import load_model
+from django.core.cache import cache
 import numpy as np
 
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-model = load_model(f'{BASE_DIR}/app/ml/model/model_MobileNet_imagenet_New_224.h5')
-model.load_weights(f'{BASE_DIR}/app/ml/model/weights_MobileNet_imagenet_New_224.h5')
+
+model_cache_key = 'diagnosis_model'
+if not cache.get(model_cache_key):
+    model = load_model(f'{BASE_DIR}/app/ml/model/model_MobileNet_imagenet_New_224.h5')
+    model.load_weights(f'{BASE_DIR}/app/ml/model/weights_MobileNet_imagenet_New_224.h5')
+    cache.set(model_cache_key, model)
 
 def predict(file):
     try:
