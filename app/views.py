@@ -22,7 +22,7 @@ def home(request):
 
     if data is None:
         data = get_user_data(request)
-        cache.set('user_data', data, 60 * 60)        
+        cache.set(cache_key, data, 60 * 60)        
     
     return render(request, 'dashboard/index.html', {'data': data})
 
@@ -37,7 +37,7 @@ def diagnosis(request):
         
         if data is None:
             data = get_user_data(request)
-            cache.set('user_data', data, 60 * 60)        
+            cache.set(cache_key, data, 60 * 60)        
 
         images_data = cache.get('images_data')
 
@@ -119,7 +119,7 @@ def history(request, id=None):
 
         if data is None:
             data = get_user_data(request)
-            cache.set('user_data', data, 60 * 60)
+            cache.set(cache_key, data, 60 * 60)
         
         history = get_history(request)
         return render(request, 'history/history.html', {'data': data, 'history': history})
