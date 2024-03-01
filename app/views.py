@@ -51,7 +51,7 @@ def diagnosis(request):
             healthy_images = images_data['healthy_images']
             early_images = images_data['early_images']
             late_images = images_data['late_images']
-            
+
         return render(request, 'diagnosis/diagnosis.html', {'data': data, 'healthy_images': healthy_images, 'early_images': early_images, 'late_images': late_images})
     
     elif request.method == 'POST':
@@ -109,7 +109,12 @@ def history(request, id=None):
         detail = detail_diagnose(email=email, item_id=id)
         return JsonResponse({'status': 200, 'data': detail})
     else:
-        data = get_user_data(request)
+        data = cache.get('user_data')
+
+        if data is None:
+            data = get_user_data(request)
+            cache.set('user_data', data, 60 * 60)
+        
         history = get_history(request)
         return render(request, 'history/history.html', {'data': data, 'history': history})
 
@@ -148,7 +153,6 @@ def delete_sel_history(request):
         print(e)
         return JsonResponse({'status': 'error', 'message': 'Error while deleting history'})
     
-from django.http import FileResponse
 
 # @login_required
 def download_sample_img(request, filename):
