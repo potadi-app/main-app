@@ -53,7 +53,7 @@ def diagnosis(request):
         else:
             healthy_images = images_data['healthy_images']
             early_images = images_data['early_images']
-            late_images = images_data['late_images']
+            late_images = images_data['late_images']    
 
         return render(request, 'diagnosis/diagnosis.html', {'data': data, 'healthy_images': healthy_images, 'early_images': early_images, 'late_images': late_images})
     
@@ -62,11 +62,18 @@ def diagnosis(request):
 
         if image_file is None:
             return JsonResponse({'status': 'error', 'message': 'No image file found'})
+        
+        if image_file.size == 0:
+            return JsonResponse({'status': 'error', 'message': 'Empty file'})
+    
         else:
             try:
                 from app.ml.diagnosis import predict
                 
                 image_data = image_file.read()
+                if len(image_data) == 0:
+                    return JsonResponse({'status': 'error', 'message': 'File data is empty'})
+                
                 diagnosis = predict(image_data)
                 y_pred = np.argmax(list(diagnosis.values()))
                 conf_lvl = diagnosis[labels[y_pred]]
@@ -81,7 +88,8 @@ def diagnosis(request):
                     detail=json.dumps(diagnosis)
                 )
                                 
-                image_history.save()
+                image_history.image_data.save(image_file.name, image_file, save=True)
+                
                 filename = image_history.image_data.name
                 image_url = image_history.image_data.url
                 dateTaken = image_history.upload_date
