@@ -30,7 +30,7 @@ def get_history(request):
             'upload_date': historie.upload_date,
             'detail': historie.detail
         })
-    
+        
     return history
 
 def detail_diagnose(item_id, email):

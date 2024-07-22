@@ -1,8 +1,5 @@
 from django.urls import path, include, re_path
-from . import views, authentication, errors
-from django.conf.urls import handler404, handler500
-
-handler404 = 'app.errors.not_found'
+from . import views, authentication
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -20,6 +17,4 @@ urlpatterns = [
 
     path('accounts/', include('allauth.urls')),
     path('accounts/login/success/', authentication.login_success, name='login_success'),
-
-    re_path(r'^(?P<requested_url>.+)$', errors.not_found, name='notfound'),  
 ]

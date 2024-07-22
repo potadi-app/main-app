@@ -14,7 +14,10 @@ class Users(models.Model):
     email = models.EmailField(primary_key=True)
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png', blank=True, null=True)
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
 
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)

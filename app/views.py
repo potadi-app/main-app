@@ -71,16 +71,17 @@ def diagnosis(request):
                 y_pred = np.argmax(list(diagnosis.values()))
                 conf_lvl = diagnosis[labels[y_pred]]
 
-                user_email = request.session.get('email')              
+                user_email = request.session.get('email')
                             
                 image_history = ImageHistory.objects.create(
                     label=labels[y_pred],
                     confident=conf_lvl,
-                    image_data=image_file,
                     user_email=user_email,
+                    image_data=image_file,
                     detail=json.dumps(diagnosis)
                 )
                                 
+                image_history.save()
                 filename = image_history.image_data.name
                 image_url = image_history.image_data.url
                 dateTaken = image_history.upload_date
@@ -122,6 +123,8 @@ def history(request, id=None):
             cache.set(cache_key, data, 60 * 60)
         
         history = get_history(request)
+        print(settings.MEDIA_ROOT)
+        print(settings.MEDIA_URL)
         return render(request, 'history/history.html', {'data': data, 'history': history})
 
 @login_required
