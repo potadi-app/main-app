@@ -1,5 +1,7 @@
 from .settings import *
 
+ALLOWED_HOSTS = ['*']
+
 DEBUG = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'app/static')
 

@@ -4,6 +4,8 @@ import os
 
 load_dotenv()
 
+ALLOWED_HOSTS = ['app.potadi.ai']
+
 DEBUG = False
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
